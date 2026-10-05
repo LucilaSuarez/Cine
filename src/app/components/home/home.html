@@ -1,0 +1,105 @@
+<!-- Card reutilizable: la usan la cartelera y los próximos estrenos -->
+<ng-template #cardPeli let-peli let-proximo="proximo">
+    <div class="peli-card" [routerLink]="['/peliculas', peli.id]">
+        @if (peli.poster_url) {
+            <img [src]="peli.poster_url" [alt]="peli.nombre" loading="lazy">
+        } @else {
+            <div class="sin-poster">Sin póster</div>
+        }
+        <div class="info">
+            <h3>{{ peli.nombre }}</h3>
+            <div class="meta">
+                @if (proximo) {
+                    <span>Estreno: {{ peli.fecha_estreno | date:'dd/MM/yyyy' }}</span>
+                } @else {
+                    <span>{{ peli.duracion_min }} min</span>
+                }
+                @if (peli.edad_minima > 0) {
+                    <span class="edad">+{{ peli.edad_minima }}</span>
+                }
+            </div>
+            <p>{{ peli.sinopsis }}</p>
+            <div class="generos">
+                @for (g of peli.generos; track g) {
+                    <span class="chip">{{ g }}</span>
+                }
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<div class="container py-4">
+
+    <!-- LOS FAVORITOS -->
+    <section class="seccion carrusel row g-4">
+        <h2 class="titulo-seccion">LOS FAVORITOS</h2>
+    </section>
+
+    <!-- PELÍCULAS EN CARTELERA -->
+    <section class="seccion row g-4">
+        <h2 class="titulo-seccion">PELÍCULAS EN CARTELERA</h2>
+
+        <div class="col-12 subtitulo-filtro">
+            <span class="subtitulo">
+                @if (generoSeleccionado(); as genero) {
+                    ESTÁS VIENDO PELÍCULAS DE {{ genero }},
+                } @else {
+                    ESTÁS VIENDO TODAS LAS PELÍCULAS DISPONIBLES,
+                }
+            </span>
+
+            <div class="filtro">
+                <button type="button" class="btn-filtrar subtitulo"
+                        [attr.aria-expanded]="menuAbierto()"
+                        (click)="alternarMenu(); $event.stopPropagation()">
+                    FILTRAR POR GÉNERO <span aria-hidden="true">▾</span>
+                </button>
+
+                @if (menuAbierto()) {
+                    <ul class="menu-generos" (click)="$event.stopPropagation()">
+                        <li>
+                            <button type="button" [class.activo]="!generoSeleccionado()"
+                                    (click)="seleccionar(null)">Todos</button>
+                        </li>
+                        @for (g of generos(); track g) {
+                            <li>
+                                <button type="button" [class.activo]="generoSeleccionado() === g"
+                                        (click)="seleccionar(g)">{{ g }}</button>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+
+        @if (cargando()) {
+            <p>Cargando...</p>
+        } @else if (error()) {
+            <p>No se pudo cargar la cartelera: {{ error() }}</p>
+        } @else {
+            @for (peli of peliculasFiltradas(); track peli.id) {
+                <div class="col-6 col-md-4 col-lg-3">
+                    <ng-container *ngTemplateOutlet="cardPeli; context: { $implicit: peli }" />
+                </div>
+            } @empty {
+                <p>No hay películas para mostrar.</p>
+            }
+        }
+    </section>
+
+    <!-- PRÓXIMOS ESTRENOS -->
+    <section id="proximos" class="seccion row g-4">
+        <h2 class="titulo-seccion">PRÓXIMOS ESTRENOS</h2>
+
+        @if (!cargando() && !error()) {
+            @for (peli of proximos(); track peli.id) {
+                <div class="col-6 col-md-4 col-lg-3">
+                    <ng-container *ngTemplateOutlet="cardPeli; context: { $implicit: peli, proximo: true }" />
+                </div>
+            } @empty {
+                <p>Pronto anunciaremos nuevos estrenos.</p>
+            }
+        }
+    </section>
+
+</div>

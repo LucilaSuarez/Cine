@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght,CRSV@100..900,0&display=swap');
+
+:root,
+[data-bs-theme="light"],
+[data-bs-theme="dark"] {
+    --bs-body-bg: #141414;
+    --bs-body-bg-rgb: 0, 0, 0;
+    --bs-body-color: #FFFFFF;
+    --bs-body-color-rgb: 255, 255, 255;
+    color-scheme: dark;
+}
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: clip;
+    background-color: #141414;
+    color: #FFFFFF;
+}
+
+body {
+    font-family: "Geologica", sans-serif;
+    line-height: 120%;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+app-root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #141414;
+    color: #FFFFFF;
+}
+
+main {
+    flex: 1;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Evita que el título quede pegado al borde superior al llegar */
+.seccion {
+    scroll-margin-top: 1rem;
+}

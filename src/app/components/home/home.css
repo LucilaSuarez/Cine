@@ -1,0 +1,178 @@
+.subtitulo-filtro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0;
+}
+
+/* Texto y botón comparten tipografía para que se lean como una sola línea */
+.subtitulo {
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+/* El botón, en rojo */
+.btn-filtrar {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: #1009e5;
+    cursor: pointer;
+}
+
+.btn-filtrar:hover {
+    text-decoration: underline;
+}
+
+.filtro {
+    position: relative;
+}
+
+.menu-generos {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    z-index: 20;
+    min-width: 220px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0.4rem;
+    list-style: none;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.menu-generos button {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: 0;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    color: #fff;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.menu-generos button:hover {
+    background-color: #2a2a2a;
+}
+
+.menu-generos button.activo {
+    color: #1009e5;
+    font-weight: 700;
+}
+
+.seccion {
+    margin-top: 3.5rem;
+}
+
+.seccion:first-child {
+    margin-top: 0;
+}
+
+.titulo-seccion {
+    font-size: clamp(1.8rem, 2.5vw, 2rem);   /* crece en pantallas grandes y se achica en móvil */
+    font-weight: 700;                        /* Bebas Neue ya es bold por diseño */
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 1.5rem 0 0.5rem;
+}
+
+.peli-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #2a2a2a;
+    color: #fff;
+    border: 1px solid #222;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.peli-card:hover {
+    transform: translateY(-4px);
+    border-color: #555;
+}
+
+/* Póster con proporción 2:3, igual para todas las cards */
+.peli-card img,
+.sin-poster {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    display: block;
+}
+
+.sin-poster {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #393939;
+    color: #888;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0.75rem 1rem 1rem;
+}
+
+.peli-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+}
+
+.meta {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    color: #aaa;
+    margin-bottom: 0.5rem;
+}
+
+.edad {
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    padding: 0 0.35rem;
+    font-size: 0.8rem;
+}
+
+/* Sinopsis limitada a 3 líneas para que todas las cards midan lo mismo */
+.peli-card p {
+    color: #ccc;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+}
+
+/* margin-top:auto empuja los géneros al fondo de la card */
+.generos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: auto;
+}
+
+.chip {
+    background-color: #2a2a2a;
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+    font-size: 0.75rem;
+}

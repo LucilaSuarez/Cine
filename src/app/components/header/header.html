@@ -1,0 +1,62 @@
+<!-- Navbar principal -->
+<nav class="navbar navbar-dark uh-navbar">
+    <div class="container">
+
+        <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/">
+            <i class="bi bi-film fs-2"></i>
+            <span class="fw-bold fs-3">{{ title }}</span>
+        </a>
+
+        <div class="d-flex align-items-center gap-3">
+
+            <span class="navbar-text text-white-50 small">
+                <i class="bi bi-mortarboard-fill me-1"></i>
+                Programación IV — UTN
+            </span>
+
+            <!-- Acceso para empleados / administradores -->
+            <a
+                class="staff-access"
+                routerLink="/acceso-personal"
+                title="Acceso para empleados y administradores">
+                <i class="bi bi-person-fill"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+
+<!-- Subnavbar -->
+<nav class="uh-subnavbar">
+    <div class="container-fluid px-2 px-sm-4">
+        <div class="uh-menu">
+
+            <button class="btn uh-btn" routerLink="/login">
+                INICIAR SESIÓN
+            </button>
+
+            <button class="btn uh-btn" routerLink="/registro">
+                REGISTRATE
+            </button>
+
+            <button class="btn uh-btn" routerLink="/cartelera">
+                PELÍCULAS
+            </button>
+
+            <button class="btn uh-btn" routerLink="/candy">
+                CANDY
+            </button>
+
+            <button class="btn uh-btn" routerLink="/" fragment="proximos">
+                PRÓXIMAMENTE
+            </button>
+
+            <button class="btn uh-btn search-btn" routerLink="/buscar">
+                <i class="bi bi-search"></i>
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
