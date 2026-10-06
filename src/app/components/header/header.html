@@ -1,7 +1,6 @@
 <!-- Navbar principal -->
 <nav class="navbar navbar-dark uh-navbar">
     <div class="container">
-
         <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/">
             <i class="bi bi-film fs-2"></i>
             <span class="fw-bold fs-3">{{ title }}</span>
@@ -31,19 +30,25 @@
     <div class="container-fluid px-2 px-sm-4">
         <div class="uh-menu">
 
-            <button class="btn uh-btn" routerLink="/login">
-                INICIAR SESIÓN
-            </button>
+            @if (auth.estaLogueado()) {
+                <button class="btn uh-btn" (click)="auth.cerrarSesion()">
+                    CERRAR SESIÓN
+                </button>
+            } @else {
+                <button class="btn uh-btn" routerLink="/login">
+                    INICIAR SESIÓN
+                </button>
 
-            <button class="btn uh-btn" routerLink="/registro">
-                REGISTRATE
-            </button>
+                <button class="btn uh-btn" routerLink="/registro">
+                    REGISTRATE
+                </button>
+            }
 
-            <button class="btn uh-btn" routerLink="/cartelera">
+            <button class="btn uh-btn" routerLink="/">
                 PELÍCULAS
             </button>
 
-            <button class="btn uh-btn" routerLink="/candy">
+            <button class="btn uh-btn" routerLink="/candy-bar">
                 CANDY
             </button>
 
@@ -54,9 +59,6 @@
             <button class="btn uh-btn search-btn" routerLink="/buscar">
                 <i class="bi bi-search"></i>
             </button>
-
         </div>
-
     </div>
-
 </nav>

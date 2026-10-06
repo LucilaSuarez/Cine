@@ -1,1 +1,112 @@
-<p>registro works!</p>
+<main class="auth-page">
+    <form class="auth-card registro-card" [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+        <h1>CREAR CUENTA</h1>
+
+        @if (confirmarEmail()) {
+            <div class="alerta-exito" role="status">
+                ¡Cuenta creada! Te enviamos un email para confirmarla. Revisá tu bandeja de entrada.
+            </div>
+        }
+
+        <div class="fila-doble">
+            <div class="campo">
+                <label for="nombre">Nombre</label>
+                <input id="nombre" type="text" formControlName="nombre" autocomplete="given-name"
+                    [class.invalido]="invalido('nombre')">
+                @if (mensaje('nombre')) { <small class="error">{{ mensaje('nombre') }}</small> }
+            </div>
+
+            <div class="campo">
+                <label for="apellido">Apellido</label>
+                <input id="apellido" type="text" formControlName="apellido" autocomplete="family-name"
+                    [class.invalido]="invalido('apellido')">
+                @if (mensaje('apellido')) { <small class="error">{{ mensaje('apellido') }}</small> }
+            </div>
+        </div>
+
+        <div class="campo">
+            <label for="email">Email</label>
+            <input id="email" type="email" formControlName="email" autocomplete="email"
+                placeholder="tu@email.com" [class.invalido]="invalido('email')">
+            @if (mensaje('email')) { <small class="error">{{ mensaje('email') }}</small> }
+        </div>
+
+        <div class="fila-doble">
+            <div class="campo">
+                <label for="password">Contraseña</label>
+                <div class="input-con-boton">
+                    <input id="password" formControlName="password" autocomplete="new-password"
+                        [type]="mostrarPassword() ? 'text' : 'password'"
+                        [class.invalido]="invalido('password')">
+                    <button type="button" class="ver"
+                            (click)="mostrarPassword.set(!mostrarPassword())"
+                            [attr.aria-label]="mostrarPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+                        <i class="bi" [class.bi-eye]="!mostrarPassword()" [class.bi-eye-slash]="mostrarPassword()"></i>
+                    </button>
+                </div>
+                @if (mensaje('password')) { <small class="error">{{ mensaje('password') }}</small> }
+            </div>
+
+            <div class="campo">
+                <label for="confirmar">Repetir contraseña</label>
+                <input id="confirmar" formControlName="confirmar" autocomplete="new-password"
+                    [type]="mostrarPassword() ? 'text' : 'password'"
+                    [class.invalido]="invalido('confirmar') || (form.hasError('passwordsDistintas') && form.controls.confirmar.touched)">
+                @if (mensaje('confirmar')) {
+                    <small class="error">{{ mensaje('confirmar') }}</small>
+                } @else if (form.hasError('passwordsDistintas') && form.controls.confirmar.touched) {
+                    <small class="error">Las contraseñas no coinciden.</small>
+                }
+            </div>
+        </div>
+
+        <div class="campo">
+            <label for="fecha">Fecha de nacimiento</label>
+            <input id="fecha" type="date" formControlName="fecha_nacimiento" [max]="hoy"
+                autocomplete="bday" [class.invalido]="invalido('fecha_nacimiento')">
+            @if (mensaje('fecha_nacimiento')) { <small class="error">{{ mensaje('fecha_nacimiento') }}</small> }
+        </div>
+
+        <div class="fila-doble">
+            <div class="campo">
+                <label for="sangre">Tipo de sangre</label>
+                <select id="sangre" formControlName="tipo_sangre" [class.invalido]="invalido('tipo_sangre')">
+                    <option value="" disabled>Elegí una opción</option>
+                    @for (t of tiposSangre; track t) {
+                        <option [value]="t">{{ t }}</option>
+                    }
+                </select>
+                @if (mensaje('tipo_sangre')) { <small class="error">{{ mensaje('tipo_sangre') }}</small> }
+            </div>
+
+            <div class="campo">
+                <label for="ojos">Color de ojos</label>
+                <select id="ojos" formControlName="color_ojos" [class.invalido]="invalido('color_ojos')">
+                    <option value="" disabled>Elegí una opción</option>
+                    @for (c of coloresOjos; track c) {
+                        <option [value]="c">{{ c }}</option>
+                    }
+                </select>
+                @if (mensaje('color_ojos')) { <small class="error">{{ mensaje('color_ojos') }}</small> }
+            </div>
+        </div>
+
+        <div class="campo">
+            <label for="vacaciones">Días de vacaciones por año</label>
+            <input id="vacaciones" type="number" formControlName="dias_vacaciones"
+                    min="0" max="365" step="1" inputmode="numeric"
+                    [class.invalido]="invalido('dias_vacaciones')">
+            @if (mensaje('dias_vacaciones')) { <small class="error">{{ mensaje('dias_vacaciones') }}</small> }
+        </div>
+
+        @if (errorServidor()) {
+            <div class="alerta-error" role="alert">{{ errorServidor() }}</div>
+        }
+
+        <button type="submit" class="btn-principal" [disabled]="enviando()">
+            {{ enviando() ? 'Creando cuenta...' : 'REGISTRARME' }}
+        </button>
+
+        <p class="pie">¿Ya tenés cuenta? <a routerLink="/login">Iniciá sesión</a></p>
+    </form>
+</main>
