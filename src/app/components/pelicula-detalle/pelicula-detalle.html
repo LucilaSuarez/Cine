@@ -1,0 +1,63 @@
+<div class="container py-4">
+  @if (cargando()) {
+    <p>Cargando...</p>
+  } @else if (error()) {
+    <p>No se pudo cargar la película: {{ error() }}</p>
+  } @else if (pelicula(); as peli) {
+    <a routerLink="/" class="volver">← Volver a la cartelera</a>
+
+    <section class="ficha row g-4">
+      <div class="col-12 col-md-4 col-lg-3">
+        @if (peli.poster_url) {
+          <img class="poster" [src]="peli.poster_url" [alt]="peli.nombre" />
+        } @else {
+          <div class="poster sin-poster">Sin póster</div>
+        }
+      </div>
+
+      <div class="col-12 col-md-8 col-lg-9">
+        <h1 class="titulo-pelicula">{{ peli.nombre }}</h1>
+
+        <div class="datos">
+          <span>{{ peli.duracion_min | duracion }}</span>
+          <span class="edad">{{ peli.edad_minima | edad }}</span>
+          @for (g of peli.generos; track g) {
+            <span class="chip">{{ g }}</span>
+          }
+        </div>
+
+        <p class="sinopsis">{{ peli.sinopsis }}</p>
+        <p class="aviso-edad" [appRestrictEdad]="peli.edad_minima">
+          Película con restricción de edad: los menores deben asistir obligatoriamente acompañados
+          por un adulto.
+        </p>
+
+        <!-- Funciones: ahora arriba, al lado del póster -->
+        <h2 class="titulo-funciones">FUNCIONES</h2>
+
+        <div class="dias">
+          @for (dia of dias(); track dia.etiqueta) {
+            <div class="dia">
+              <h3>{{ dia.etiqueta }}</h3>
+              <div class="horarios">
+                @for (f of dia.funciones; track f.id) {
+                  <a class="funcion" [routerLink]="['/funcion', f.id]">
+                    <strong class="hora">{{ hora(f.inicio) }}</strong>
+                    <span>{{ f.formato }} · {{ f.idioma }}</span>
+                    <span>{{ f.sala }}</span>
+                    <span class="precio">{{ f.precio | precio }}</span>
+                  </a>
+                }
+              </div>
+            </div>
+          } @empty {
+            <p>No hay funciones programadas por el momento.</p>
+          }
+        </div>
+      </div>
+    </section>
+  } @else {
+    <p>No encontramos la película que buscás.</p>
+    <a routerLink="/" class="volver">← Volver a la cartelera</a>
+  }
+</div>

@@ -1,0 +1,137 @@
+.volver {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: #aaa;
+  text-decoration: none;
+}
+
+.volver:hover {
+  color: #fff;
+}
+
+.poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.sin-poster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #393939;
+  color: #888;
+}
+
+.titulo-pelicula {
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.7rem;
+}
+
+.datos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.edad {
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  padding: 0 0.4rem;
+  font-size: 0.85rem;
+}
+
+.chip {
+  background-color: #2a2a2a;
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.1rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+/* ===== Funciones ===== */
+.titulo-funciones {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 1.5rem 0 1rem;
+}
+
+/* Los días se ubican uno al lado del otro y saltan de línea si no entran */
+.dias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.dia h3 {
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  color: #ccc;
+  margin-bottom: 0.6rem;
+}
+
+/* Las funciones de un mismo día también van una al lado de la otra */
+.horarios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.funcion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 150px;
+  padding: 0.7rem 0.9rem;
+  background-color: #2a2a2a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+
+.funcion:hover {
+  border-color: #1009e5;
+  transform: translateY(-2px);
+}
+
+.hora {
+  font-size: 1.6rem;
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.precio {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+/* ===== Sinopsis y aviso ===== */
+.sinopsis {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  max-width: 65ch;
+  margin-top: 0.5rem;
+}
+
+.aviso-edad {
+  background-color: rgba(255, 193, 7, 0.1);
+  border: 1px solid #ffc107;
+  color: #ffd54f;
+  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+  max-width: 65ch;
+}
