@@ -9,10 +9,10 @@ export const appConfig: ApplicationConfig = {
       routes,
       withInMemoryScrolling({
         anchorScrolling: 'enabled',
-        scrollPositionRestoration: 'enabled'
+        scrollPositionRestoration: 'enabled',
       }),
       // Permite volver a hacer clic en el botón aunque la URL ya tenga #proximos
-      withRouterConfig({ onSameUrlNavigation: 'reload' })
-    )
-  ]
+      withRouterConfig({ onSameUrlNavigation: 'reload' }),
+    ),
+  ],
 };
