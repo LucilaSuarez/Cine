@@ -1,0 +1,131 @@
+.panel-empleado {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem;
+}
+
+.encabezado {
+  margin-bottom: 2rem;
+}
+
+.etiqueta {
+  color: #8d87ff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.encabezado h1 {
+  margin: 0.65rem 0;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+}
+
+.encabezado p,
+.tarjeta > p {
+  color: #b8b8b8;
+  line-height: 1.6;
+}
+
+.acciones {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.tarjeta {
+  padding: 1.75rem;
+  background: #1c1c1c;
+  border: 1px solid #303030;
+  border-radius: 14px;
+}
+
+.icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  background: var(--icono-fondo);
+  border-radius: 12px;
+  color: var(--icono-color);
+  font-size: 1.5rem;
+}
+
+.tarjeta h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.tarjeta form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.tarjeta label {
+  font-weight: 600;
+}
+
+.tarjeta input {
+  width: 100%;
+  padding: 0.75rem;
+  background: #141414;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  color: white;
+}
+
+.tarjeta input:focus {
+  outline: 2px solid #6c63ff;
+  outline-offset: 1px;
+}
+
+.btn-panel {
+  padding: 0.8rem;
+  background: #1009e5;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-panel:hover {
+  filter: brightness(1.15);
+}
+
+.mensaje {
+  margin-top: 1rem;
+  color: #aaa5ff;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  .acciones {
+    grid-template-columns: 1fr;
+  }
+
+  .tarjeta {
+    padding: 1.25rem;
+  }
+}
+
+.mensaje-validacion {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.mensaje-exito {
+  color: #166534;
+  background-color: #dcfce7;
+}
+
+.mensaje-error {
+  color: #991b1b;
+  background-color: #fee2e2;
+}

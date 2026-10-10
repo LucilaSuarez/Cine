@@ -1,1 +1,65 @@
-<p>candy-bar works!</p>
+<div class="container py-4">
+  <h2 class="titulo-seccion">CANDY BAR</h2>
+
+  @if (cargando()) {
+    <p>Cargando...</p>
+  } @else if (error()) {
+    <p>No se pudo cargar el Candy Bar: {{ error() }}</p>
+  } @else {
+    @for (grupo of grupos(); track grupo.categoria) {
+      <section class="categoria">
+        <h3 class="titulo-categoria">{{ grupo.categoria }}</h3>
+
+        <div class="row g-4">
+          @for (p of grupo.productos; track p.id) {
+            <div class="col-6 col-md-4 col-lg-3">
+              <article class="producto-card">
+                @if (p.imagen_url) {
+                  <img [src]="p.imagen_url" [alt]="p.nombre" loading="lazy" />
+                } @else {
+                  <div class="sin-imagen">Sin imagen</div>
+                }
+
+                <div class="info">
+                  <h4>{{ p.nombre }}</h4>
+
+                  <span class="precio">
+                    {{ p.precio | precio }}
+                  </span>
+
+                  <div class="cantidad">
+                    <button
+                      type="button"
+                      class="btn-cantidad"
+                      (click)="quitar(p)"
+                      [disabled]="cantidad(p.id) === 0"
+                    >
+                      −
+                    </button>
+
+                    <span>{{ cantidad(p.id) }}</span>
+
+                    <button type="button" class="btn-cantidad" (click)="agregar(p)">+</button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          }
+        </div>
+      </section>
+    } @empty {
+      <p>Todavía no hay productos disponibles.</p>
+    }
+
+    @if (items().length > 0) {
+      <section class="resumen-candy">
+        <div>
+          <strong>Subtotal Candy Bar</strong>
+          <span>{{ subtotal() | precio }}</span>
+        </div>
+
+        <button type="button" class="btn-continuar" (click)="continuar()">CONTINUAR</button>
+      </section>
+    }
+  }
+</div>

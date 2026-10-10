@@ -1,0 +1,178 @@
+.perfil-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.perfil-header {
+  margin-bottom: 30px;
+}
+
+.perfil-header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.perfil-header p {
+  margin: 0;
+  color: var(--texto-suave);
+}
+
+.perfil-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.perfil-card {
+  background: var(--surface);
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.card-title i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--icono-fondo);
+  border-radius: 12px;
+  color: var(--icono-color);
+  font-size: 1.4rem;
+}
+
+.card-title h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.datos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.dato {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dato span {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+.dato strong {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.peliculas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pelicula-item {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.pelicula-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.pelicula-item img,
+.poster-vacio {
+  width: 75px;
+  height: 105px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.poster-vacio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-3);
+  color: var(--texto-suave);
+}
+
+.poster-vacio i {
+  font-size: 24px;
+}
+
+.pelicula-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pelicula-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.pelicula-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+
+.sin-calificacion {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+.mensaje,
+.mensaje-vacio {
+  color: var(--texto-suave);
+  text-align: center;
+  padding: 30px 10px;
+}
+
+.mensaje-vacio i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px;
+  background: var(--icono-fondo);
+  border-radius: 16px;
+  color: var(--icono-color);
+  font-size: 2rem;
+}
+
+.mensaje-vacio p {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .perfil-container {
+    padding: 30px 16px;
+  }
+
+  .perfil-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,285 @@
+.categoria {
+  margin-top: 2.5rem;
+}
+
+.titulo-categoria {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.titulo-seccion {
+  font-size: clamp(1.8rem, 2.5vw, 2rem); /* crece en pantallas grandes y se achica en móvil */
+  font-weight: 700; /* Bebas Neue ya es bold por diseño */
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.producto-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #2a2a2a;
+  border: 1px solid #222;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.producto-card img,
+.sin-imagen {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.sin-imagen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #393939;
+  color: #888;
+}
+
+.info {
+  padding: 0.75rem 1rem 1rem;
+}
+
+.info h4 {
+  font-size: 1.05rem;
+  margin-bottom: 0.4rem;
+}
+
+.precio {
+  font-weight: 700;
+  color: #fff;
+}
+
+.cantidad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.cantidad span {
+  min-width: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.btn-cantidad {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background-color: #393939;
+  color: #fff;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.btn-cantidad:hover:not(:disabled) {
+  background-color: #4a4a4a;
+}
+
+.btn-cantidad:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.resumen-candy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding: 1.25rem;
+  background-color: #2a2a2a;
+  border: 1px solid #222;
+  border-radius: 12px;
+}
+
+.resumen-candy div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.resumen-candy div span {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.btn-continuar {
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #111;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-continuar:hover {
+  background-color: #ddd;
+}
+
+
+@media (max-width: 576px) {
+  .resumen-candy {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-continuar {
+    width: 100%;
+  }
+}
+
+.panel-empleado {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem;
+}
+
+.encabezado {
+  margin-bottom: 2rem;
+}
+
+.etiqueta {
+  color: var(--azul-texto);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.encabezado h1 {
+  margin: 0.65rem 0;
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.encabezado p,
+.tarjeta > p {
+  color: var(--texto-suave);
+  line-height: 1.6;
+}
+
+.acciones {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.tarjeta {
+  padding: 1.75rem;
+  background: var(--surface);
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+}
+
+.icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  background: var(--azul-fondo);
+  border-radius: 12px;
+  color: var(--azul-texto);
+  font-size: 1.5rem;
+}
+
+.tarjeta h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.tarjeta form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.tarjeta label {
+  font-weight: 600;
+}
+
+.tarjeta input {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--bg);
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.tarjeta input:focus {
+  outline: none;
+  border-color: var(--azul-texto);
+}
+
+.btn-panel {
+  padding: 0.8rem;
+  background: var(--azul);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+
+.btn-panel:hover:not(:disabled) {
+  filter: brightness(1.15);
+}
+
+.btn-panel:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.mensaje {
+  margin-top: 1rem;
+  color: var(--azul-texto);
+  line-height: 1.5;
+}
+
+.mensaje-validacion {
+  margin-top: 1rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.mensaje-exito {
+  color: var(--verde);
+  background-color: rgba(46, 160, 67, 0.12);
+  border-color: #2ea043;
+}
+
+.mensaje-error {
+  color: #ff8a8e;
+  background-color: rgba(255, 90, 95, 0.12);
+  border-color: var(--rojo);
+}
+
+@media (max-width: 700px) {
+  .acciones {
+    grid-template-columns: 1fr;
+  }
+
+  .tarjeta {
+    padding: 1.25rem;
+  }
+}

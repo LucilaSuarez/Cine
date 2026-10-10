@@ -1,1 +1,100 @@
-<p>perfil works!</p>
+<div class="perfil-container">
+  <div class="perfil-header">
+    <h1>Mi perfil</h1>
+    <p>Consultá tus datos personales y tus películas asistidas.</p>
+  </div>
+
+  <div class="perfil-grid">
+    <!-- Datos personales -->
+    <section class="perfil-card">
+      <div class="card-title">
+        <i class="bi bi-person-circle"></i>
+        <h2>Datos personales</h2>
+      </div>
+
+      @if (auth.perfil(); as usuario) {
+        <div class="datos-lista">
+          <div class="dato">
+            <span>Nombre</span>
+            <strong>{{ usuario.nombre }} {{ usuario.apellido }}</strong>
+          </div>
+
+          <div class="dato">
+            <span>Email</span>
+            <strong>{{ usuario.email || 'No disponible' }}</strong>
+          </div>
+
+          <div class="dato">
+            <span>Fecha de nacimiento</span>
+            <strong>
+              {{
+                usuario.fecha_nacimiento
+                  ? (usuario.fecha_nacimiento | date: 'dd/MM/yyyy')
+                  : 'No disponible'
+              }}
+            </strong>
+          </div>
+
+          <div class="dato">
+            <span>Tipo de sangre</span>
+            <strong>{{ usuario.tipo_sangre || 'No disponible' }}</strong>
+          </div>
+
+          <div class="dato">
+            <span>Color de ojos</span>
+            <strong>{{ usuario.color_ojos || 'No disponible' }}</strong>
+          </div>
+
+          <div class="dato">
+            <span>Rol</span>
+            <strong>{{ usuario.rol }}</strong>
+          </div>
+        </div>
+      } @else {
+        <p>No se pudieron cargar los datos del perfil.</p>
+      }
+    </section>
+
+    <!-- Mis películas -->
+    <section class="perfil-card peliculas-card">
+      <div class="card-title">
+        <i class="bi bi-film"></i>
+        <h2>Mis películas</h2>
+      </div>
+
+      @if (perfilService.cargandoPeliculas()) {
+        <p class="mensaje">Cargando tus películas...</p>
+      } @else if (perfilService.peliculasAsistidas().length === 0) {
+        <div class="mensaje-vacio">
+          <i class="bi bi-camera-reels"></i>
+          <p>Todavía no tenés películas asistidas.</p>
+        </div>
+      } @else {
+        <div class="peliculas-lista">
+          @for (item of perfilService.peliculasAsistidas(); track item.pelicula.id) {
+            <article class="pelicula-item">
+              @if (item.pelicula.poster_url) {
+                <img [src]="item.pelicula.poster_url" [alt]="'Póster de ' + item.pelicula.nombre" />
+              } @else {
+                <div class="poster-vacio">
+                  <i class="bi bi-film"></i>
+                </div>
+              }
+
+              <div class="pelicula-info">
+                <h3>{{ item.pelicula.nombre }}</h3>
+
+                <p>
+                  <i class="bi bi-calendar-event"></i>
+                  {{ item.fechaFuncion | date: 'dd/MM/yyyy HH:mm' }}
+                </p>
+
+                <span class="sin-calificacion"> Sin calificación </span>
+              </div>
+            </article>
+          }
+        </div>
+      }
+    </section>
+  </div>
+</div>

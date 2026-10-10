@@ -1,1 +1,69 @@
-<p>empleado works!</p>
+<main class="panel-empleado">
+  <header class="encabezado">
+    <span class="etiqueta">PERSONAL DEL CINE</span>
+    <h1>Panel de empleado</h1>
+    <p>Gestioná el ingreso a las funciones y la entrega de productos.</p>
+  </header>
+
+  <section class="acciones">
+    <article class="tarjeta">
+      <div class="icono">
+        <i class="bi bi-ticket-perforated"></i>
+      </div>
+
+      <h2>Validar entrada</h2>
+      <p>Ingresá el código de la entrada para comprobar su validez.</p>
+
+      <form (ngSubmit)="validarEntrada()">
+        <label for="codigoEntrada">Código de entrada</label>
+        <input
+          id="codigoEntrada"
+          name="codigoEntrada"
+          type="text"
+          [(ngModel)]="codigoEntrada"
+          placeholder="Ingresá el código"
+          autocomplete="off"
+        />
+
+        <button type="submit" class="btn-panel">VALIDAR ENTRADA</button>
+      </form>
+
+      @if (mensajeEntrada()) {
+        <p
+          class="mensaje-validacion"
+          [class.mensaje-exito]="entradaValida()"
+          [class.mensaje-error]="!entradaValida()"
+        >
+          {{ mensajeEntrada() }}
+        </p>
+      }
+    </article>
+
+    <article class="tarjeta">
+      <div class="icono">
+        <i class="bi bi-cup-straw"></i>
+      </div>
+
+      <h2>Retiro de Candy Bar</h2>
+      <p>Comprobá la compra antes de entregar los productos.</p>
+
+      <form (ngSubmit)="validarCandy()">
+        <label for="codigoCandy">Código de compra</label>
+        <input
+          id="codigoCandy"
+          name="codigoCandy"
+          type="text"
+          [(ngModel)]="codigoCandy"
+          placeholder="Ingresá el código"
+          autocomplete="off"
+        />
+
+        <button type="submit" class="btn-panel">VALIDAR RETIRO</button>
+      </form>
+
+      @if (mensajeCandy()) {
+        <p class="mensaje" role="status">{{ mensajeCandy() }}</p>
+      }
+    </article>
+  </section>
+</main>

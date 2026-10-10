@@ -1,1 +1,1008 @@
-<p>admin works!</p>
+<div class="admin-page">
+    <div class="admin-container">
+        <header class="admin-header">
+            <div>
+                <span class="admin-etiqueta">CINE · ADMINISTRACIÓN</span>
+                <h1>Panel de administración</h1>
+                <p>Gestioná las películas, funciones y servicios del cine.</p>
+            </div>
+        </header>
+
+        <nav class="admin-nav">
+            <button
+                type="button"
+                [class.activo]="seccionActiva() === 'peliculas'"
+                (click)="cambiarSeccion('peliculas')">
+                <i class="bi bi-film"></i>
+                Películas
+            </button>
+            <button
+                type="button"
+                [class.activo]="seccionActiva() === 'funciones'"
+                (click)="cambiarSeccion('funciones')">
+                <i class="bi bi-calendar-event"></i>
+                Funciones y salas
+            </button>
+            <button
+                type="button"
+                [class.activo]="seccionActiva() === 'candy'"
+                (click)="cambiarSeccion('candy')">
+                <i class="bi bi-cup-straw"></i>
+                Candy Bar
+            </button>
+            <button
+                type="button"
+                [class.activo]="seccionActiva() === 'beneficios'"
+                (click)="cambiarSeccion('beneficios')">
+                <i class="bi bi-gift"></i>
+            Beneficios
+            </button>
+            <button
+                type="button"
+                [class.activo]="seccionActiva() === 'reportes'"
+                (click)="cambiarSeccion('reportes')">
+                <i class="bi bi-bar-chart"></i>
+                Reportes
+            </button>
+        </nav>
+
+        <!-- Sección de peliculas -->
+        <main class="admin-contenido">
+            @if (seccionActiva() === 'peliculas') {
+                <section class="admin-seccion">
+                    <div class="admin-titulo-seccion">
+                        <div>
+                            <h2>Gestión de películas</h2>
+                            <p>Administrá el catálogo, los estrenos y las preventas.</p>
+                        </div>
+
+                        <button type="button" class="btn-admin-principal" (click)="nueva()">
+                            <i class="bi bi-plus-lg"></i>
+                            Nueva película
+                        </button>
+                    </div>
+
+                    @if (error()) {
+                        <div class="admin-alerta admin-alerta-error">
+                            {{ error() }}
+                        </div>
+                    }
+
+                    @if (mensaje()) {
+                        <div class="admin-alerta admin-alerta-ok">
+                            {{ mensaje() }}
+                        </div>
+                    }
+
+                    @if (mostrarFormulario()) {
+                    <form class="admin-formulario" (ngSubmit)="guardarPelicula()">
+                        <h3>
+                            {{ peliculaEditando ? 'Editar película' : 'Nueva película' }}
+                        </h3>
+                        <div class="admin-campos">
+                            <div class="admin-campo">
+                                <label for="nombre">Título *</label>
+                                    <input
+                                        id="nombre"
+                                        name="nombre"
+                                        type="text"
+                                        [(ngModel)]="formulario.nombre"
+                                        required
+                                    />
+                            </div>
+
+                            <div class="admin-campo">
+                                <label for="duracion">Duración (minutos) *</label>
+                                <input
+                                    id="duracion"
+                                    name="duracion"
+                                    type="number"
+                                    min="1"
+                                    [(ngModel)]="formulario.duracion_min"
+                                    required
+                                />
+                            </div>
+
+                            <div class="admin-campo admin-campo-completo">
+                                <label for="sinopsis">Sinopsis</label>
+                                <textarea
+                                    id="sinopsis"
+                                    name="sinopsis"
+                                    rows="4"
+                                    [(ngModel)]="formulario.sinopsis"
+                                ></textarea>
+                            </div>
+
+                            <div class="admin-campo admin-campo-completo">
+                                <label for="poster">URL del póster</label>
+                                <input
+                                    id="poster"
+                                    name="poster"
+                                    type="url"
+                                    [(ngModel)]="formulario.poster_url"
+                                    placeholder="https://..."
+                                />
+                            </div>
+
+                            <div class="admin-campo">
+                                <label for="edad">Clasificación por edad</label>
+                                <select id="edad" name="edad" [(ngModel)]="formulario.edad_minima">
+                                    <option [ngValue]="0">ATP</option>
+                                    <option [ngValue]="13">Desde 13 años</option>
+                                    <option [ngValue]="16">Desde 16 años</option>
+                                    <option [ngValue]="18">Desde 18 años</option>
+                                </select>
+                            </div>
+
+                            <div class="admin-campo">
+                                <label for="estreno">Fecha de estreno</label>
+                                <input
+                                    id="estreno"
+                                    name="estreno"
+                                    type="date"
+                                    [(ngModel)]="formulario.fecha_estreno"
+                                />
+                            </div>
+
+                            <div class="admin-campo admin-campo-completo admin-check">
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="preventa"
+                                        [(ngModel)]="formulario.preventa_habilitada"
+                                    />
+                                    Habilitar preventa
+                                </label>
+                            </div>
+
+                            @if (formulario.preventa_habilitada) {
+                                <div class="admin-campo">
+                                    <label for="preventaDesde">Inicio de preventa</label>
+                                    <input
+                                        id="preventaDesde"
+                                        name="preventaDesde"
+                                        type="date"
+                                        [(ngModel)]="formulario.preventa_desde"
+                                    />
+                                </div>
+
+                                <div class="admin-campo">
+                                    <label for="preventaHasta">Fin de preventa</label>
+                                    <input
+                                        id="preventaHasta"
+                                        name="preventaHasta"
+                                        type="date"
+                                        [(ngModel)]="formulario.preventa_hasta"
+                                    />
+                                </div>
+
+                                <div class="admin-campo">
+                                    <label for="precioPreventa">Precio de preventa</label>
+                                    <input
+                                        id="precioPreventa"
+                                        name="precioPreventa"
+                                        type="number"
+                                        min="0"
+                                        step="0.01"
+                                        [(ngModel)]="formulario.precio_preventa"
+                                    />
+                                </div>
+                            }
+                                <div class="admin-campo admin-campo-completo admin-check">
+                                    <label>
+                                    <input type="checkbox" name="activa" [(ngModel)]="formulario.activa" />
+                                    Película activa en el catálogo
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="admin-acciones">
+                            <button type="submit" class="btn-admin-principal" [disabled]="guardando()">
+                                {{ guardando() ? 'Guardando...' : 'Guardar película' }}
+                            </button>
+
+                            <button type="button" class="btn-admin-secundario" (click)="cancelarFormulario()">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                }
+
+                <div class="admin-listado-titulo">
+                    <h3>Películas registradas</h3>
+                    <button type="button" class="btn-admin-secundario" (click)="cargarPeliculas()" [disabled]="cargando()">
+                        <i class="bi bi-arrow-clockwise"></i>
+                            Actualizar
+                    </button>
+                </div>
+
+                @if (cargando()) {
+                    <p class="admin-texto-secundario">Cargando películas...</p>
+                } @else if (peliculas().length === 0) {
+                    <div class="admin-placeholder">
+                        <i class="bi bi-film"></i>
+                        <h3>No hay películas registradas</h3>
+                        <p>Podés agregar la primera con el botón Nueva película.</p>
+                    </div>
+                } @else {
+                    <div class="admin-tabla-contenedor">
+                        <table class="admin-tabla">
+                            <thead>
+                                <tr>
+                                    <th>Película</th>
+                                    <th>Duración</th>
+                                    <th>Edad</th>
+                                    <th>Preventa</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                        <tbody>
+                        @for (pelicula of peliculas(); track pelicula.id) {
+                            <tr>
+                                <td>
+                                    <div class="admin-pelicula">
+                                        @if (pelicula.poster_url) {
+                                            <img [src]="pelicula.poster_url"
+                                            [alt]="'Póster de ' + pelicula.nombre" />
+                                        }
+                                        <strong>{{ pelicula.nombre }}</strong>
+                                    </div>
+                                </td>
+                                <td>{{ pelicula.duracion_min }} min</td>
+                                <td>
+                                    {{ pelicula.edad_minima === 0 ? 'ATP' : '+' + pelicula.edad_minima }}
+                                </td>
+                                <td>
+                                    {{ pelicula.preventa_habilitada ? 'Habilitada' : 'No' }}
+                                </td>
+                                <td>
+                                    <span class="admin-estado" [class.admin-estado-inactivo]="!pelicula.activa">
+                                        {{ pelicula.activa ? 'Activa' : 'Inactiva' }}
+                                    </span>
+                                </td>
+                                    <td>
+                                        <div class="admin-acciones-tabla">
+                                            <button type="button" class="btn-admin-secundario"
+                                                (click)="editar(pelicula)">
+                                                Editar
+                                            </button>
+                                            <button type="button" class="btn-admin-secundario"
+                                                (click)="cambiarEstado(pelicula)" >
+                                                {{ pelicula.activa ? 'Desactivar' : 'Activar' }}
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        </table>
+                    </div>
+                    }
+                </section>
+            }
+
+            @if (seccionActiva() === 'funciones') {
+        <section class="admin-seccion">
+          <div class="admin-encabezado-seccion">
+            <div>
+              <h2>Funciones y salas</h2>
+              <p>Programá películas y administrá las salas del cine.</p>
+            </div>
+
+            <div class="admin-acciones">
+              <button type="button" class="btn-admin-principal" (click)="nuevaFuncionFormulario()">
+                + Nueva función
+              </button>
+
+              <button type="button" class="btn-admin-secundario" (click)="cargarFunciones()">
+                Actualizar
+              </button>
+            </div>
+          </div>
+
+          @if (mensajeFuncion()) {
+            <p class="admin-mensaje-exito">{{ mensajeFuncion() }}</p>
+          }
+
+          @if (errorFuncion()) {
+            <p class="admin-mensaje-error">{{ errorFuncion() }}</p>
+          }
+
+          @if (mostrarFormularioFuncion()) {
+            <form class="admin-formulario" (ngSubmit)="guardarFuncion()">
+              <h3>
+                {{ funcionEditando ? 'Editar función' : 'Nueva función' }}
+              </h3>
+
+              <div class="admin-campos">
+                <label>
+                  Película
+                  <select name="pelicula_id" [(ngModel)]="formularioFuncion.pelicula_id" required>
+                    <option value="">Seleccioná una película</option>
+
+                    @for (pelicula of peliculasParaFunciones(); track pelicula.id) {
+                      <option [value]="pelicula.id">
+                        {{ pelicula.nombre }}
+                        ({{ pelicula.duracion_min }} min)
+                      </option>
+                    }
+                  </select>
+                </label>
+
+                <label>
+                  Fecha y hora de inicio
+                  <input
+                    type="datetime-local"
+                    name="inicio"
+                    [(ngModel)]="formularioFuncion.inicio"
+                    required
+                  />
+                </label>
+
+                <label>
+                  Formato de proyección
+                  <select name="formato" [(ngModel)]="formularioFuncion.formato" required>
+                    @for (formato of formatosProyeccion; track formato) {
+                      <option [value]="formato">{{ formato }}</option>
+                    }
+                  </select>
+                </label>
+
+                <label>
+                  Idioma
+                  <select name="idioma" [(ngModel)]="formularioFuncion.idioma" required>
+                    @for (idioma of idiomasFuncion; track idioma) {
+                      <option [value]="idioma">
+                        {{ idioma === 'castellano' ? 'Castellano' : 'Subtitulado' }}
+                      </option>
+                    }
+                  </select>
+                </label>
+
+                <label>
+                  Precio de la entrada
+                  <input
+                    type="number"
+                    name="precio"
+                    [(ngModel)]="formularioFuncion.precio"
+                    min="0"
+                    step="0.01"
+                    required
+                  />
+                </label>
+
+                <label>
+                  Sala
+                  <select
+                    name="sala_id"
+                    [(ngModel)]="formularioFuncion.sala_id"
+                    [disabled]="formularioFuncion.asignacionAutomatica || !!funcionEditando"
+                    required
+                  >
+                    <option value="">Seleccioná una sala</option>
+
+                    @for (sala of salasParaFunciones(); track sala.id) {
+                      <option [value]="sala.id">
+                        Sala {{ sala.numero }}
+                        {{ sala.nombre ? '- ' + sala.nombre : '' }}
+                      </option>
+                    }
+                  </select>
+                </label>
+
+                @if (!funcionEditando) {
+                  <label class="admin-checkbox">
+                    <input
+                      type="checkbox"
+                      name="asignacionAutomatica"
+                      [(ngModel)]="formularioFuncion.asignacionAutomatica"
+                    />
+
+                    Asignar automáticamente una sala disponible
+                  </label>
+                }
+              </div>
+
+              <p class="admin-ayuda">
+                La duración y la hora de finalización se calculan automáticamente según la película
+                seleccionada. Se contemplan 30 minutos de margen entre funciones.
+              </p>
+
+              <div class="admin-acciones">
+                <button type="submit" class="btn-admin-principal" [disabled]="guardandoFuncion()">
+                  {{ guardandoFuncion() ? 'Guardando...' : 'Guardar función' }}
+                </button>
+
+                <button
+                  type="button"
+                  class="btn-admin-secundario"
+                  (click)="cancelarFormularioFuncion()"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          }
+
+          <div class="admin-listado">
+            <h3>Funciones programadas</h3>
+
+            @if (cargandoFunciones()) {
+              <p>Cargando funciones...</p>
+            } @else if (funciones().length === 0) {
+              <p>No hay funciones registradas.</p>
+            } @else {
+              <div class="admin-tabla-contenedor">
+                <table class="admin-tabla">
+                  <thead>
+                    <tr>
+                      <th>Película</th>
+                      <th>Inicio</th>
+                      <th>Fin</th>
+                      <th>Sala</th>
+                      <th>Formato</th>
+                      <th>Idioma</th>
+                      <th>Precio</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    @for (funcion of funciones(); track funcion.id) {
+                      <tr>
+                        <td>
+                          {{ funcion.peliculas?.nombre || 'Película sin nombre' }}
+                        </td>
+
+                        <td>{{ funcion.inicio | date: 'dd/MM/yyyy HH:mm' }}</td>
+
+                        <td>{{ funcion.fin | date: 'HH:mm' }}</td>
+
+                        <td>
+                          {{ funcion.salas?.numero ? 'Sala ' + funcion.salas.numero : 'Sin sala' }}
+                        </td>
+
+                        <td>{{ funcion.formato }}</td>
+
+                        <td>
+                          {{ funcion.idioma === 'castellano' ? 'Castellano' : 'Subtitulado' }}
+                        </td>
+
+                        <td>{{ funcion.precio | currency: 'ARS' : 'symbol' : '1.2-2' }}</td>
+
+                        <td>
+                          <span
+                            [class.estado-activo]="funcion.activa"
+                            [class.estado-inactivo]="!funcion.activa"
+                          >
+                            {{ funcion.activa ? 'Activa' : 'Inactiva' }}
+                          </span>
+                        </td>
+
+                        <td>
+                          <div class="admin-acciones-tabla">
+                            <button
+                              type="button"
+                              class="btn-admin-secundario"
+                              (click)="editarFuncion(funcion)"
+                            >
+                              Editar
+                            </button>
+
+                            <button
+                              type="button"
+                              class="btn-admin-secundario"
+                              (click)="cambiarEstadoFuncion(funcion)"
+                            >
+                              {{ funcion.activa ? 'Desactivar' : 'Activar' }}
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            }
+          </div>
+
+          <hr class="admin-separador" />
+
+          <div class="admin-encabezado-seccion">
+            <div>
+              <h3>Administración de salas</h3>
+              <p>Gestioná las salas registradas en el cine.</p>
+            </div>
+
+            <button type="button" class="btn-admin-principal" (click)="nuevaSalaFormulario()">
+              + Nueva sala
+            </button>
+          </div>
+
+          @if (mensajeSala()) {
+            <p class="admin-mensaje-exito">{{ mensajeSala() }}</p>
+          }
+
+          @if (errorSala()) {
+            <p class="admin-mensaje-error">{{ errorSala() }}</p>
+          }
+
+          @if (mostrarFormularioSala()) {
+            <form class="admin-formulario" (ngSubmit)="guardarSala()">
+              <h3>{{ salaEditando ? 'Editar sala' : 'Nueva sala' }}</h3>
+
+              <div class="admin-campos">
+                <label>
+                  Número de sala
+                  <input
+                    type="number"
+                    name="numeroSala"
+                    [(ngModel)]="formularioSala.numero"
+                    min="1"
+                    step="1"
+                    required
+                  />
+                </label>
+
+                <label>
+                  Nombre (opcional)
+                  <input
+                    type="text"
+                    name="nombreSala"
+                    [(ngModel)]="formularioSala.nombre"
+                    placeholder="Ej. Sala Premium"
+                  />
+                </label>
+
+                <label class="admin-checkbox">
+                  <input type="checkbox" name="activaSala" [(ngModel)]="formularioSala.activa" />
+                  Sala activa
+                </label>
+              </div>
+
+              <div class="admin-acciones">
+                <button type="submit" class="btn-admin-principal" [disabled]="guardandoSala()">
+                  {{ guardandoSala() ? 'Guardando...' : 'Guardar sala' }}
+                </button>
+
+                <button
+                  type="button"
+                  class="btn-admin-secundario"
+                  (click)="cancelarFormularioSala()"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          }
+
+          @if (cargandoSalas()) {
+            <p>Cargando salas...</p>
+          } @else {
+            <div class="admin-tabla-contenedor">
+              <table class="admin-tabla">
+                <thead>
+                  <tr>
+                    <th>Número</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  @for (sala of salas(); track sala.id) {
+                    <tr>
+                      <td>{{ sala.numero }}</td>
+                      <td>{{ sala.nombre || 'Sin nombre' }}</td>
+                      <td>
+                        <span
+                          [class.estado-activo]="sala.activa"
+                          [class.estado-inactivo]="!sala.activa"
+                        >
+                          {{ sala.activa ? 'Activa' : 'Inactiva' }}
+                        </span>
+                      </td>
+                      <td>
+                        <div class="admin-acciones-tabla">
+                          <button
+                            type="button"
+                            class="btn-admin-secundario"
+                            (click)="editarSala(sala)"
+                          >
+                            Editar
+                          </button>
+
+                          <button
+                            type="button"
+                            class="btn-admin-secundario"
+                            (click)="cambiarEstadoSala(sala)"
+                          >
+                            {{ sala.activa ? 'Desactivar' : 'Activar' }}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </section>
+            }
+
+            @if (seccionActiva() === 'candy') {
+        <section class="admin-seccion">
+          <div class="admin-titulo-seccion">
+            <div>
+              <h2>Gestión de Candy Bar</h2>
+              <p>Administrá los productos, sus categorías y precios.</p>
+            </div>
+
+            <button type="button" class="btn-admin-principal" (click)="nuevoProductoFormulario()">
+              <i class="bi bi-plus-lg"></i>
+              Nuevo producto
+            </button>
+          </div>
+
+          @if (errorProducto()) {
+            <div class="admin-alerta admin-alerta-error">
+              {{ errorProducto() }}
+            </div>
+          }
+
+          @if (mensajeProducto()) {
+            <div class="admin-alerta admin-alerta-ok">
+              {{ mensajeProducto() }}
+            </div>
+          }
+
+          @if (mostrarFormularioProducto()) {
+            <form class="admin-formulario" (ngSubmit)="guardarProducto()">
+              <h3>
+                {{ productoEditando ? 'Editar producto' : 'Nuevo producto' }}
+              </h3>
+
+              <div class="admin-campos">
+                <div class="admin-campo">
+                  <label for="nombreProducto">Nombre *</label>
+                  <input
+                    id="nombreProducto"
+                    name="nombreProducto"
+                    type="text"
+                    [(ngModel)]="formularioProducto.nombre"
+                    required
+                  />
+                </div>
+
+                <div class="admin-campo">
+                  <label for="categoriaProducto">Categoría</label>
+                  <select
+                    id="categoriaProducto"
+                    name="categoriaProducto"
+                    [(ngModel)]="formularioProducto.categoria_id"
+                  >
+                    <option [ngValue]="null">Sin categoría</option>
+
+                    @for (categoria of categoriasProducto(); track categoria.id) {
+                      <option [ngValue]="categoria.id">
+                        {{ categoria.nombre }}
+                      </option>
+                    }
+                  </select>
+                </div>
+
+                <div class="admin-campo">
+                  <label for="precioProducto">Precio *</label>
+                  <input
+                    id="precioProducto"
+                    name="precioProducto"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    [(ngModel)]="formularioProducto.precio"
+                    required
+                  />
+                </div>
+
+                <div class="admin-campo admin-campo-completo">
+                  <label for="imagenProducto">URL de la imagen</label>
+                  <input
+                    id="imagenProducto"
+                    name="imagenProducto"
+                    type="url"
+                    [(ngModel)]="formularioProducto.imagen_url"
+                    placeholder="https://..."
+                  />
+                </div>
+
+                @if (formularioProducto.imagen_url) {
+                  <div class="admin-campo admin-campo-completo">
+                    <p>Vista previa de la imagen</p>
+                    <img
+                      [src]="formularioProducto.imagen_url"
+                      [alt]="formularioProducto.nombre || 'Producto'"
+                      class="admin-imagen-producto"
+                    />
+                  </div>
+                }
+
+                <div class="admin-campo admin-campo-completo admin-check">
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="activoProducto"
+                      [(ngModel)]="formularioProducto.activo"
+                    />
+                    Producto disponible para la venta
+                  </label>
+                </div>
+              </div>
+
+              <div class="admin-acciones">
+                <button type="submit" class="btn-admin-principal" [disabled]="guardandoProducto()">
+                  {{ guardandoProducto() ? 'Guardando...' : 'Guardar producto' }}
+                </button>
+
+                <button
+                  type="button"
+                  class="btn-admin-secundario"
+                  (click)="cancelarFormularioProducto()"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          }
+
+          <div class="admin-listado-titulo">
+            <h3>Productos registrados</h3>
+
+            <button
+              type="button"
+              class="btn-admin-secundario"
+              (click)="cargarProductos()"
+              [disabled]="cargandoProductos()"
+            >
+              <i class="bi bi-arrow-clockwise"></i>
+              Actualizar
+            </button>
+          </div>
+
+          @if (cargandoProductos()) {
+            <p class="admin-texto-secundario">Cargando productos...</p>
+          } @else if (productos().length === 0) {
+            <div class="admin-placeholder">
+              <i class="bi bi-cup-straw"></i>
+              <h3>No hay productos registrados</h3>
+              <p>Podés agregar el primer producto con el botón Nuevo producto.</p>
+            </div>
+          } @else {
+            <div class="admin-tabla-contenedor">
+              <table class="admin-tabla">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  @for (producto of productos(); track producto.id) {
+                    <tr>
+                      <td>
+                        <div class="admin-producto">
+                          @if (producto.imagen_url) {
+                            <img [src]="producto.imagen_url" [alt]="producto.nombre" />
+                          }
+                          <strong>{{ producto.nombre }}</strong>
+                        </div>
+                      </td>
+
+                      <td>
+                        {{ producto.categorias_producto?.nombre || 'Sin categoría' }}
+                      </td>
+
+                      <td>
+                        {{ producto.precio | currency: 'ARS' : 'symbol' : '1.2-2' }}
+                      </td>
+
+                      <td>
+                        <span class="admin-estado" [class.admin-estado-inactivo]="!producto.activo">
+                          {{ producto.activo ? 'Activo' : 'Inactivo' }}
+                        </span>
+                      </td>
+
+                      <td>
+                        <div class="admin-acciones-tabla">
+                          <button
+                            type="button"
+                            class="btn-admin-secundario"
+                            (click)="editarProducto(producto)"
+                          >
+                            Editar
+                          </button>
+
+                          <button
+                            type="button"
+                            class="btn-admin-secundario"
+                            (click)="cambiarEstadoProducto(producto)"
+                          >
+                            {{ producto.activo ? 'Desactivar' : 'Activar' }}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </section>
+            }
+
+            @if (seccionActiva() === 'beneficios') {
+        <section class="admin-seccion">
+          <div>
+            <h2>Beneficios y promociones</h2>
+            <p>Configurá los parámetros comerciales del cine.</p>
+          </div>
+
+          <div class="admin-placeholder">
+            <i class="bi bi-gift"></i>
+            <h3>Promociones y fidelización</h3>
+            <p>Acá incorporaremos cupones, puntos y beneficios configurables.</p>
+          </div>
+        </section>
+            }
+
+            
+@if (seccionActiva() === 'reportes') {
+    <section class="admin-seccion">
+        <div class="admin-titulo-seccion">
+            <div>
+                <h2>Reportes del cine</h2>
+                <p>Resumen de ventas, entradas y productos de Candy Bar.</p>
+            </div>
+
+            <button
+                type="button"
+                class="btn-admin-principal"
+                (click)="cargarReportes()"
+                [disabled]="cargandoReportes()"
+            >
+                <i class="bi bi-arrow-clockwise"></i>
+                Actualizar reportes
+            </button>
+        </div>
+
+        @if (errorReporte()) {
+            <div class="admin-alerta error">
+                {{ errorReporte() }}
+            </div>
+        }
+
+        @if (cargandoReportes()) {
+            <p>Cargando reportes...</p>
+        } @else {
+            <div class="admin-resumen">
+                <article class="admin-tarjeta-resumen">
+                    <i class="bi bi-cash-stack"></i>
+                    <p>Ingresos de compras confirmadas</p>
+                    <h3>{{ ingresosTotales() | currency:'ARS':'symbol':'1.2-2' }}</h3>
+                </article>
+
+                <article class="admin-tarjeta-resumen">
+                    <i class="bi bi-cart-check"></i>
+                    <p>Compras confirmadas</p>
+                    <h3>{{ comprasConfirmadas() }}</h3>
+                </article>
+
+                <article class="admin-tarjeta-resumen">
+                    <i class="bi bi-ticket-perforated"></i>
+                    <p>Entradas vendidas</p>
+                    <h3>{{ entradasVendidas() }}</h3>
+                </article>
+
+                <article class="admin-tarjeta-resumen">
+                    <i class="bi bi-cart-x"></i>
+                    <p>Compras canceladas</p>
+                    <h3>{{ comprasCanceladas() }}</h3>
+                </article>
+            </div>
+
+            <div class="admin-tabla-contenedor">
+                <h3>Ventas por función</h3>
+
+                @if (ventasPorFuncion().length === 0) {
+                    <p>No hay funciones para mostrar.</p>
+                } @else {
+                    <table class="admin-tabla">
+                        <thead>
+                            <tr>
+                                <th>Película</th>
+                                <th>Fecha y hora</th>
+                                <th>Entradas vendidas</th>
+                                <th>Entradas canceladas</th>
+                                <th>Compras confirmadas</th>
+                                <th>Compras canceladas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (venta of ventasPorFuncion(); track venta.funcion_id) {
+                                <tr>
+                                    <td>{{ venta.pelicula }}</td>
+                                    <td>{{ venta.inicio | date:'dd/MM/yyyy HH:mm' }}</td>
+                                    <td>{{ venta.entradasConfirmadas }}</td>
+                                    <td>{{ venta.entradasCanceladas }}</td>
+                                    <td>{{ venta.comprasConfirmadas }}</td>
+                                    <td>{{ venta.comprasCanceladas }}</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+
+            <div class="admin-tabla-contenedor">
+                <h3>Productos más vendidos de Candy Bar</h3>
+
+                @if (productosMasVendidos().length === 0) {
+                    <p>Todavía no hay ventas confirmadas de productos individuales.</p>
+                } @else {
+                    <table class="admin-tabla">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Unidades vendidas</th>
+                                <th>Importe vendido</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (producto of productosMasVendidos(); track producto.nombre) {
+                                <tr>
+                                    <td>{{ producto.nombre }}</td>
+                                    <td>{{ producto.cantidad }}</td>
+                                    <td>{{ producto.importe | currency:'ARS':'symbol':'1.2-2' }}</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+
+            <div class="admin-tabla-contenedor">
+                <h3>Películas con más entradas validadas</h3>
+
+                @if (peliculasMasVistas().length === 0) {
+                    <p>Todavía no hay entradas validadas para mostrar.</p>
+                } @else {
+                    <table class="admin-tabla">
+                        <thead>
+                            <tr>
+                                <th>Película</th>
+                                <th>Compras con entrada validada</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                                @for (pelicula of peliculasMasVistas(); track pelicula.pelicula) {
+                                    <tr>
+                                        <td>{{ pelicula.pelicula }}</td>
+                                        <td>{{ pelicula.comprasValidadas }}</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    </div>
+                    }
+                </section>
+            }
+        </main>
+    </div>
+</div>
