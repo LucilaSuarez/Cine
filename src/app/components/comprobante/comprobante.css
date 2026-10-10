@@ -1,0 +1,122 @@
+.exito {
+  background-color: rgba(46, 160, 67, 0.12);
+  border: 1px solid #2ea043;
+  color: #6fdd8b;
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+  margin-bottom: 1.25rem;
+  font-weight: 700;
+}
+
+.ticket {
+  max-width: 520px;
+  background-color: #1c1c1c;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  padding: 1.5rem;
+}
+
+.ticket h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.cuando {
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.cuando::first-letter {
+  text-transform: uppercase;
+}
+
+dl {
+  margin: 0 0 1rem;
+}
+
+dl div {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+dt {
+  color: #aaa;
+  font-weight: 400;
+}
+
+dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+}
+
+.candy ul {
+  margin: 0.4rem 0 1rem;
+  padding-left: 1.2rem;
+}
+
+.leyenda {
+  background-color: rgba(255, 193, 7, 0.1);
+  border: 1px solid #ffc107;
+  color: #ffd54f;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.qr {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.qr img {
+  width: 200px;
+  height: 200px;
+  background: #fff;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  max-width: 520px;
+}
+
+.acciones .btn-principal {
+  width: auto;
+  padding: 0.7rem 1.25rem;
+}
+
+.btn-secundario {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 0.7rem 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-secundario:hover {
+  border-color: #fff;
+}
+
+.guardar {
+  color: #aaa;
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+}
+
+@media print {
+  .no-imprimir {
+    display: none !important;
+  }
+}

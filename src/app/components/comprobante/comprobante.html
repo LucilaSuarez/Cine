@@ -1,0 +1,70 @@
+<div class="container py-4">
+  @if (cargando()) {
+    <p>Cargando comprobante...</p>
+  } @else if (error()) {
+    <p>No se pudo cargar el comprobante: {{ error() }}</p>
+  } @else if (datos(); as d) {
+    <div class="exito">¡Compra confirmada!</div>
+
+    <article class="ticket">
+      <h2>{{ d.pelicula }}</h2>
+      <p class="cuando">{{ cuando() }}</p>
+
+      <dl>
+        <div>
+          <dt>Sala</dt>
+          <dd>{{ d.sala }}</dd>
+        </div>
+        <div>
+          <dt>Formato</dt>
+          <dd>{{ d.formato }} · {{ d.idioma }}</dd>
+        </div>
+        <div>
+          <dt>Butacas</dt>
+          <dd>{{ d.butacas.join(', ') }}</dd>
+        </div>
+        <div>
+          <dt>Total</dt>
+          <dd>{{ d.total | precio }}</dd>
+        </div>
+      </dl>
+
+      @if (d.items.length > 0) {
+        <div class="candy">
+          <strong>Candy Bar</strong>
+          <ul>
+            @for (i of d.items; track i.nombre) {
+              <li>{{ i.cantidad }} × {{ i.nombre }}</li>
+            }
+          </ul>
+        </div>
+      }
+
+      @if (d.leyenda) {
+        <p class="leyenda">{{ d.leyenda }}</p>
+      }
+
+      <div class="qr">
+        @if (qrImagen()) {
+          <img [src]="qrImagen()" alt="Código QR de tu entrada" />
+        }
+        <p>
+          Código manual: <strong>{{ d.codigo_manual }}</strong>
+        </p>
+      </div>
+    </article>
+
+    <div class="acciones no-imprimir">
+      <button type="button" class="btn-principal" (click)="descargarPdf()">DESCARGAR PDF</button>
+      <button type="button" class="btn-secundario" (click)="imprimir()">IMPRIMIR</button>
+      <a routerLink="/" class="btn-secundario">VOLVER AL INICIO</a>
+    </div>
+
+    <p class="guardar no-imprimir">
+      Guardá este enlace o descargá el PDF: es tu comprobante para entrar a la función.
+    </p>
+  } @else {
+    <p>No encontramos ese comprobante.</p>
+    <a routerLink="/">← Volver al inicio</a>
+  }
+</div>

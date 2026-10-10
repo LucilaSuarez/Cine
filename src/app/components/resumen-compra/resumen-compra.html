@@ -1,0 +1,132 @@
+<div class="container py-4">
+  <h2 class="titulo-seccion">RESUMEN DE COMPRA</h2>
+
+  @if (!funcion()) {
+    <div class="sin-compra">
+      <p>No hay una compra en curso.</p>
+      <a routerLink="/" class="btn-volver">VOLVER AL INICIO</a>
+    </div>
+  } @else {
+    <section class="resumen">
+      <div class="pelicula">
+        @if (funcion()!.pelicula.poster_url) {
+          <img [src]="funcion()!.pelicula.poster_url" [alt]="funcion()!.pelicula.nombre" />
+        }
+
+        <div>
+          <h3>{{ funcion()!.pelicula.nombre }}</h3>
+          <p>{{ funcion()!.sala }}</p>
+          <p>{{ funcion()!.formato }} · {{ funcion()!.idioma }}</p>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3>FUNCIÓN</h3>
+        <p>{{ funcion()!.inicio | date: 'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+
+      <div class="bloque">
+        <h3>BUTACAS</h3>
+
+        <div class="lista">
+          @for (butaca of butacas(); track butaca.id) {
+            <div class="item">
+              <span> {{ butaca.fila }}{{ butaca.numero }} · {{ butaca.tipo }} </span>
+
+              <span>
+                {{ funcion()!.precio + (butaca.tipo === 'vip' ? compra.recargoVip() : 0) | precio }}
+              </span>
+            </div>
+          }
+        </div>
+
+        <div class="subtotal">
+          <span>Subtotal entradas</span>
+          <strong>{{ subtotalEntradas() | precio }}</strong>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3>CANDY BAR</h3>
+
+        @if (items().length === 0) {
+          <p class="vacio">No agregaste productos.</p>
+        } @else {
+          <div class="lista">
+            @for (item of items(); track item.producto.id) {
+              <div class="item">
+                <span>
+                  {{ item.producto.nombre }}
+                  × {{ item.cantidad }}
+                </span>
+
+                <span>
+                  {{ item.producto.precio * item.cantidad | precio }}
+                </span>
+              </div>
+            }
+          </div>
+
+          <div class="subtotal">
+            <span>Subtotal Candy Bar</span>
+            <strong>{{ subtotalCandy() | precio }}</strong>
+          </div>
+        }
+      </div>
+
+      <div class="total">
+        <span>TOTAL</span>
+        <strong>{{ total() | precio }}</strong>
+      </div>
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <div class="acciones">
+        <a routerLink="/candy-bar" class="btn-volver"> VOLVER AL CANDY BAR </a>
+
+        <button
+          type="button"
+          class="btn-confirmar"
+          (click)="confirmarCompra()"
+          [disabled]="confirmando()"
+        >
+          @if (confirmando()) {
+            PROCESANDO...
+          } @else {
+            CONFIRMAR COMPRA
+          }
+        </button>
+      </div>
+    </section>
+  }
+</div>
+
+@if (mostrarAdvertencia()) {
+  <div class="modal-fondo">
+    <div class="modal-advertencia">
+      <h3>RESTRICCIÓN DE EDAD</h3>
+
+      <p>
+        Película con restricción de edad: los menores deben asistir obligatoriamente acompañados por
+        un adulto.
+      </p>
+
+      <p>
+        Esta película es apta para mayores de
+        {{ funcion()!.pelicula.edad_minima }} años.
+      </p>
+
+      <p>¿Confirmás que estás informado/a sobre esta restricción?</p>
+
+      <div class="modal-acciones">
+        <button type="button" class="btn-volver" (click)="cerrarAdvertencia()">CANCELAR</button>
+
+        <button type="button" class="btn-confirmar" (click)="aceptarAdvertencia()">
+          ACEPTAR Y CONTINUAR
+        </button>
+      </div>
+    </div>
+  </div>
+}
