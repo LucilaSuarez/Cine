@@ -176,3 +176,60 @@
     grid-template-columns: 1fr;
   }
 }
+
+.compra-item { 
+  display:flex; 
+  flex-wrap:wrap; 
+  gap:.75rem; 
+  align-items:center; 
+  justify-content:space-between;
+  background:var(--surface-2); 
+  border:1px solid var(--borde); 
+  border-radius:10px; 
+  padding:.9rem 1rem; 
+  margin-bottom:.6rem; 
+}
+
+.compra-item small { 
+  display:block; 
+  color:var(--texto-suave); 
+}
+
+.credito { 
+  color:var(--texto-suave); 
+}
+
+.estado { 
+  padding:.15rem .6rem; 
+  border-radius:999px; 
+  font-size:.8rem; 
+}
+
+.estado-confirmada { 
+  background:var(--azul-fondo); 
+  color:var(--azul-texto); 
+}
+
+.estado-cancelada  { 
+  background:#3a1414; 
+  color:var(--rojo); 
+}
+
+.compras-card { 
+  grid-column: 1 / -1; 
+}
+
+.compra-acciones { 
+  display:flex; 
+  gap:.5rem; 
+}
+
+.calificacion { 
+  color: var(--ambar); 
+  letter-spacing: 0.1em; 
+}
+
+.sin-calificacion { 
+  color: var(--azul-texto); 
+  font-size: 0.9rem; 
+}

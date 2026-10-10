@@ -65,6 +65,29 @@
       {{ enviando() ? 'Ingresando...' : 'INGRESAR' }}
     </button>
 
+    <div class="separador">
+      <span>O ingresá con</span>
+    </div>
+
+    <button
+      type="button"
+      class="btn-social"
+      [disabled]="enviando()"
+      (click)="ingresarConProveedor('google')"
+    >
+      <i class="bi bi-google"></i>
+      Continuar con Google
+    </button>
+
+    <button
+      type="button"
+      class="btn-social"
+      [disabled]="enviando()"
+      (click)="ingresarConProveedor('github')"
+    >
+      <i class="bi bi-github"></i>
+      Continuar con GitHub
+    </button>
     <p class="pie">¿No tenés cuenta? <a routerLink="/registro">Registrate</a></p>
   </form>
 </main>

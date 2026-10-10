@@ -2,13 +2,7 @@ import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angula
 import { FormControl, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FuncionesService } from '../../services/funciones';
-import {
-  Butaca,
-  ButacaOcupada,
-  EstadoButaca,
-  FuncionDetalle,
-  TipoButaca,
-} from '../../task/task-model';
+import { Butaca, ButacaOcupada, EstadoButaca, FuncionDetalle, TipoButaca,} from '../../task/task-model';
 import { HighlightButacaDirective } from '../../directives/highlight-butaca.directive';
 import { PrecioPipe } from '../../pipes/precio-pipe';
 import { MAX_BUTACAS, butacasContiguas, maximoButacas } from '../../validators/butacas-validators';

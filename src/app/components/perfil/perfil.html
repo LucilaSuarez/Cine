@@ -1,7 +1,7 @@
 <div class="perfil-container">
   <div class="perfil-header">
     <h1>Mi perfil</h1>
-    <p>Consultá tus datos personales y tus películas asistidas.</p>
+    <p>Consultá tus datos personales, tus películas asistidas y tus compras.</p>
   </div>
 
   <div class="perfil-grid">
@@ -17,6 +17,16 @@
           <div class="dato">
             <span>Nombre</span>
             <strong>{{ usuario.nombre }} {{ usuario.apellido }}</strong>
+          </div>
+
+          <div class="dato">
+            <span>Crédito a favor</span>
+            <strong>{{ perfilService.saldoCredito() | currency:'ARS':'symbol-narrow':'1.0-0' }}</strong>
+          </div>
+
+          <div class="dato">
+            <span>Puntos acumulados</span>
+            <strong>{{ perfilService.saldoPuntos() }}</strong>
           </div>
 
           <div class="dato">
@@ -89,10 +99,49 @@
                   {{ item.fechaFuncion | date: 'dd/MM/yyyy HH:mm' }}
                 </p>
 
-                <span class="sin-calificacion"> Sin calificación </span>
+                @if (perfilService.misPuntuaciones()[item.pelicula.id]; as nota) {
+                  <span class="calificacion">{{ '★'.repeat(nota) }}{{ '☆'.repeat(5 - nota) }}</span>
+                } @else {
+                  <a class="sin-calificacion" [routerLink]="['/peliculas', item.pelicula.id]">Calificar</a>
+                }
               </div>
             </article>
           }
+        </div>
+      }
+    </section>
+
+    <!-- Mis compras -->
+    <section class="perfil-card compras-card">
+      <div class="card-title">
+        <i class="bi bi-ticket-perforated"></i>
+        <h2>Mis compras</h2>
+      </div>
+
+      @if (mensaje()) { <div class="alerta-exito">{{ mensaje() }}</div> }
+      @if (error())   { <div class="alerta-error">{{ error() }}</div> }
+
+      @for (c of compras(); track c.id) {
+        <article class="compra-item">
+          <div>
+            <strong>{{ c.funciones?.peliculas?.nombre }}</strong>
+            <small>
+              {{ c.funciones?.inicio | date:'dd/MM/yyyy HH:mm' }} ·
+              {{ c.total | currency:'ARS':'symbol-narrow':'1.0-0' }}
+            </small>
+          </div>
+          <span class="estado estado-{{ c.estado }}">{{ c.estado }}</span>
+          <div class="compra-acciones">
+            <a class="btn-secundario" [routerLink]="['/comprobante', c.qr_codigo]">Comprobante</a>
+            @if (puedeCancelar(c)) {
+              <button class="btn-secundario" (click)="cancelar(c)">Cancelar</button>
+            }
+          </div>
+        </article>
+      } @empty {
+        <div class="mensaje-vacio">
+          <i class="bi bi-ticket-perforated"></i>
+          <p>Todavía no hiciste compras.</p>
         </div>
       }
     </section>

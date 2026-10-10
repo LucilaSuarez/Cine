@@ -64,4 +64,16 @@ export class Login {
       this.enviando.set(false);
     }
   }
+
+  async ingresarConProveedor(proveedor: 'google' | 'github') {
+    this.enviando.set(true);
+    this.errorServidor.set(null);
+
+    try {
+        await this.auth.loginConProveedor(proveedor);
+    } catch (e: any) {
+        this.errorServidor.set(e.message);
+        this.enviando.set(false);
+    }
+  }
 }

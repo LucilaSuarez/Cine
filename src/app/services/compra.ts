@@ -60,7 +60,7 @@ export class CompraService {
         this.recargoVip.set(recargo);
     }
 
-    async crearCompra(aceptoRestriccion: boolean = false) {
+    async crearCompra(aceptoRestriccion: boolean = false, usarCredito: boolean = false) {
         const funcion = this.funcion();
 
         if (!funcion) {
@@ -82,6 +82,7 @@ export class CompraService {
             p_items: items,
             p_email_contacto: null,
             p_acepto_restriccion: aceptoRestriccion,
+            p_usar_credito: usarCredito, 
         });
         if (error) {
             throw new Error(error.message);
@@ -93,6 +94,22 @@ export class CompraService {
         const { data, error } = await this.supabase.client.rpc('obtener_comprobante', { p_qr: qr });
         if (error) throw new Error(error.message);
         return (data as Comprobante | null) ?? null;
+    }
+
+    async misCompras() {
+        const { data, error } = await this.supabase.client
+            .from('compras')
+            .select(`
+                id, total, estado, created_at, qr_codigo, entrada_validada_at,
+                funciones ( id, inicio, peliculas ( nombre, poster_url ) ) `)
+            .order('created_at', { ascending: false });
+        if (error) throw error;
+        return data ?? [];
+    }
+
+    async cancelarCompra(id: string) {
+        const { error } = await this.supabase.client.rpc('cancelar_compra', { p_compra: id });
+        if (error) throw error;
     }
 
     limpiar() {

@@ -1,10 +1,10 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { CompraService } from '../../services/compra';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { RouterLink, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { PrecioPipe } from '../../pipes/precio-pipe';
-import { Router } from '@angular/router';
+import { CompraService } from '../../services/compra';
+import { PerfilService } from '../../services/perfil';
 import { AuthService } from '../../services/auth';
+import { PrecioPipe } from '../../pipes/precio-pipe';
 
 @Component({
   selector: 'app-resumen-compra',
@@ -12,27 +12,50 @@ import { AuthService } from '../../services/auth';
   templateUrl: './resumen-compra.html',
   styleUrl: './resumen-compra.css',
 })
-export class ResumenCompra {
+export class ResumenCompra implements OnInit {
   compra = inject(CompraService);
   funcion = this.compra.funcion;
   butacas = this.compra.butacas;
   items = this.compra.items;
   subtotalCandy = this.compra.subtotalCandy;
   private router = inject(Router);
+  private perfilService = inject(PerfilService);
+  auth = inject(AuthService);
+
   confirmando = signal(false);
   error = signal<string | null>(null);
-  auth = inject(AuthService);
   mostrarAdvertencia = signal(false);
+
+  // Crédito a favor
+  usarCredito = signal(false);
+  saldo = this.perfilService.saldoCredito;
 
   subtotalEntradas = computed(() =>
     this.butacas().reduce(
       (total, butaca) =>
         total +
         (this.funcion()?.precio ?? 0) +
-        (butaca.tipo === 'vip' ? this.compra.recargoVip() : 0),
-      0,
-    ),
+        (butaca.tipo === 'vip' ? this.compra.recargoVip() : 0), 0,),
   );
+
+  total = computed(() => this.subtotalEntradas() + this.subtotalCandy());
+
+  // Lo que se descuenta del crédito (nunca más que el total ni más que el saldo)
+  creditoAplicado = computed(() =>
+    this.usarCredito() ? Math.min(this.saldo(), this.total()) : 0,
+  );
+
+  totalAPagar = computed(() => this.total() - this.creditoAplicado());
+
+  cantidadItems = computed(() => this.items().reduce((total, item) => total + item.cantidad, 0));
+
+  async ngOnInit() {
+    await this.auth.lista;
+    const id = this.auth.perfil()?.id;
+    if (id) {
+      await this.perfilService.cargarSaldo(id);
+    }
+  }
 
   async confirmarCompra() {
     if (this.confirmando()) return;
@@ -61,7 +84,7 @@ export class ResumenCompra {
     this.error.set(null);
 
     try {
-      const resultado = await this.compra.crearCompra(aceptoRestriccion);
+      const resultado = await this.compra.crearCompra(aceptoRestriccion, this.usarCredito());
 
       if (!resultado?.qr_codigo) {
         throw new Error('La compra se creó, pero no se recibió el código QR.');
@@ -75,8 +98,4 @@ export class ResumenCompra {
       this.confirmando.set(false);
     }
   }
-
-  total = computed(() => this.subtotalEntradas() + this.subtotalCandy());
-
-  cantidadItems = computed(() => this.items().reduce((total, item) => total + item.cantidad, 0));
 }

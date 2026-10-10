@@ -37,6 +37,11 @@ export class AuthService {
         this.perfil.set(data as Perfil | null);
     }
 
+    async recargarPerfil() {
+        await this.lista;
+        await this.cargarPerfil(this.session()?.user.id);
+    }
+
     async login(email: string, password: string) {
         const { data, error } = await this.client.auth.signInWithPassword({ email, password });
         if (error) throw new Error(this.traducirError(error.message));
@@ -66,7 +71,21 @@ export class AuthService {
             throw new Error('Ya existe una cuenta con ese email.');
         }
             return !!data.session;
+    }
+
+
+    async loginConProveedor(proveedor: 'google' | 'github') {
+        const { error } = await this.client.auth.signInWithOAuth({
+            provider: proveedor,
+            options: {
+                redirectTo: window.location.origin + '/',
+            },
+        });
+
+        if (error) {
+            throw new Error(this.traducirError(error.message));
         }
+    }
 
     async cerrarSesion() {
         await this.client.auth.signOut();

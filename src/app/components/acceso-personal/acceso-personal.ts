@@ -5,7 +5,6 @@ import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-acceso-personal',
-  standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './acceso-personal.html',
   styleUrl: './acceso-personal.css',
