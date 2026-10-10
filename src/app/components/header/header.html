@@ -1,64 +1,57 @@
 <!-- Navbar principal -->
 <nav class="navbar navbar-dark uh-navbar">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/">
-            <i class="bi bi-film fs-2"></i>
-            <span class="fw-bold fs-3">{{ title }}</span>
-        </a>
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/">
+      <i class="bi bi-film fs-2"></i>
+      <span class="fw-bold fs-3">{{ title }}</span>
+    </a>
 
-        <div class="d-flex align-items-center gap-3">
+    <div class="d-flex align-items-center gap-3">
+      <span class="navbar-text text-white-50 small">
+        <i class="bi bi-mortarboard-fill me-1"></i>
+        Programación IV — UTN
+      </span>
 
-            <span class="navbar-text text-white-50 small">
-                <i class="bi bi-mortarboard-fill me-1"></i>
-                Programación IV — UTN
-            </span>
-
-            <!-- Acceso para empleados / administradores -->
-            <a
-                class="staff-access"
-                routerLink="/acceso-personal"
-                title="Acceso para empleados y administradores">
-                <i class="bi bi-person-fill"></i>
-            </a>
-        </div>
+      <!-- Acceso para empleados / administradores -->
+      <a
+        class="staff-access"
+        routerLink="/acceso-personal"
+        title="Acceso para empleados y administradores"
+      >
+        <i class="bi bi-person-fill"></i>
+      </a>
     </div>
+  </div>
 </nav>
-
 
 <!-- Subnavbar -->
 <nav class="uh-subnavbar">
-    <div class="container-fluid px-2 px-sm-4">
-        <div class="uh-menu">
+  <div class="container-fluid px-2 px-sm-4">
+    <div class="uh-menu">
+      @if (auth.estaLogueado()) {
+        @if (auth.rol() === 'administrador') {
+          <button class="btn uh-btn" routerLink="/admin">PANEL DE ADMINISTRACIÓN</button>
+        } @else if (auth.rol() === 'empleado') {
+          <button class="btn uh-btn" routerLink="/empleado">PANEL DE EMPLEADO</button>
+        } @else {
+          <button class="btn uh-btn" routerLink="/perfil">MI PERFIL</button>
+        }
+        <button class="btn uh-btn" (click)="auth.cerrarSesion()">CERRAR SESIÓN</button>
+      } @else {
+        <button class="btn uh-btn" routerLink="/login">INICIAR SESIÓN</button>
 
-            @if (auth.estaLogueado()) {
-                <button class="btn uh-btn" (click)="auth.cerrarSesion()">
-                    CERRAR SESIÓN
-                </button>
-            } @else {
-                <button class="btn uh-btn" routerLink="/login">
-                    INICIAR SESIÓN
-                </button>
+        <button class="btn uh-btn" routerLink="/registro">REGISTRATE</button>
+      }
 
-                <button class="btn uh-btn" routerLink="/registro">
-                    REGISTRATE
-                </button>
-            }
+      <button class="btn uh-btn" routerLink="/">PELÍCULAS</button>
 
-            <button class="btn uh-btn" routerLink="/">
-                PELÍCULAS
-            </button>
+      <button class="btn uh-btn" routerLink="/candy-bar">CANDY</button>
 
-            <button class="btn uh-btn" routerLink="/candy-bar">
-                CANDY
-            </button>
+      <button class="btn uh-btn" routerLink="/" fragment="proximos">PRÓXIMAMENTE</button>
 
-            <button class="btn uh-btn" routerLink="/" fragment="proximos">
-                PRÓXIMAMENTE
-            </button>
-
-            <button class="btn uh-btn search-btn" routerLink="/buscar">
-                <i class="bi bi-search"></i>
-            </button>
-        </div>
+      <button class="btn uh-btn search-btn" routerLink="/buscar">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
+  </div>
 </nav>

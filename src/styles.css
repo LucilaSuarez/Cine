@@ -1,207 +1,279 @@
 @import url('https://fonts.googleapis.com/css2?family=Geologica:wght,CRSV@100..900,0&display=swap');
 
+/* ===== Paleta única de la app ===== */
 :root,
-[data-bs-theme="light"],
-[data-bs-theme="dark"] {
-    --bs-body-bg: #141414;
-    --bs-body-bg-rgb: 0, 0, 0;
-    --bs-body-color: #FFFFFF;
-    --bs-body-color-rgb: 255, 255, 255;
-    color-scheme: dark;
+[data-bs-theme='light'],
+[data-bs-theme='dark'] {
+  /* Fondos */
+  --bg: #141414;
+  --surface: #1c1c1c;     /* paneles y formularios */
+  --surface-2: #2a2a2a;   /* cards e ítems */
+  --surface-3: #393939;   /* chips, botones secundarios */
+  --borde: #333333;
+
+  /* Texto */
+  --texto: #ffffff;
+  --texto-suave: #aaaaaa;
+
+  /* Azules (los únicos dos de toda la app) */
+  --azul:  #1009e5;;                      /* fondos de botones */
+  --azul-texto: #4f4ae8;                /* texto, enlaces y detalles */
+  --azul-fondo: rgba(16, 9, 229, 0.18); /* fondos suaves */
+
+  /* Estados */
+  --rojo: #ff5a5f;
+  --verde: #6fdd8b;
+  --ambar: #ffd54f;
+
+  --radio: 12px;
+
+    /* Íconos (los de la captura del panel de empleado) */
+  --icono-fondo: #0a186f;
+  --icono-color: #1009e5;
+
+  /* Bootstrap */
+  --bs-body-bg: #141414;
+  --bs-body-bg-rgb: 20, 20, 20;
+  --bs-body-color: #ffffff;
+  --bs-body-color-rgb: 255, 255, 255;
+  --bs-link-color-rgb: 122, 117, 255;
+  --bs-link-hover-color-rgb: 154, 150, 255;
+  color-scheme: dark;
 }
 
 html,
 body {
-    max-width: 100%;
-    overflow-x: clip;
-    background-color: #141414;
-    color: #FFFFFF;
-}
-
-body {
-    font-family: "Geologica", sans-serif;
-    line-height: 120%;
-    font-weight: 400;
-    font-size: 14px;
-}
-
-app-root {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #141414;
-    color: #FFFFFF;
-}
-
-main {
-    flex: 1;
+  max-width: 100%;
+  overflow-x: clip;
+  background-color: var(--bg);
+  color: var(--texto);
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
-/* Evita que el título quede pegado al borde superior al llegar */
+body {
+  font-family: 'Geologica', sans-serif;
+  line-height: 120%;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--texto);
+}
+
+main {
+  flex: 1;
+}
+
+:focus-visible {
+  outline: 2px solid var(--azul-texto);
+  outline-offset: 2px;
+}
+
+/* Evita que el título quede pegado al borde superior al llegar a una sección */
 .seccion {
-    scroll-margin-top: 1rem;
+  scroll-margin-top: 1rem;
 }
 
-/* Campos en dos columnas (registro) */
-.fila-doble {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0 1rem;
+/* ===== Títulos (los usan todas las pantallas) ===== */
+.titulo-seccion {
+  font-size: clamp(1.8rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--texto);
+  margin: 1.5rem 0 0.5rem;
 }
 
-@media (max-width: 576px) {
-    .fila-doble {
-        grid-template-columns: 1fr;
-    }
+/* ===== Botones ===== */
+.btn-principal {
+  display: inline-block;
+  width: 100%;
+  background-color: var(--azul);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-/* ===== Formularios de autenticación (login y registro) ===== */
+.btn-principal:hover:not(:disabled) {
+  filter: brightness(1.15);
+}
+
+.btn-principal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secundario {
+  display: inline-block;
+  background: transparent;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 0.7rem 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-secundario:hover:not(:disabled) {
+  border-color: var(--azul-texto);
+  color: #fff;
+}
+
+.btn-secundario:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===== Alertas ===== */
+.alerta-error,
+.alerta-exito,
+.alerta-aviso {
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+  margin-bottom: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.alerta-error {
+  background-color: rgba(255, 90, 95, 0.12);
+  border-color: var(--rojo);
+  color: #ff8a8e;
+}
+
+.alerta-exito {
+  background-color: rgba(46, 160, 67, 0.12);
+  border-color: #2ea043;
+  color: var(--verde);
+}
+
+.alerta-aviso {
+  background-color: rgba(255, 193, 7, 0.1);
+  border-color: #ffc107;
+  color: var(--ambar);
+}
+
+.error {
+  display: block;
+  color: var(--rojo);
+  margin-top: 0.3rem;
+}
+
+/* ===== Formularios de autenticación (login, registro y acceso del personal) ===== */
 .auth-page {
-    display: flex;
-    justify-content: center;
-    padding: 3rem 1rem;
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1rem;
 }
 
 .auth-card {
-    width: 100%;
-    max-width: 420px;
-    background-color: #1c1c1c;
-    border: 1px solid #2a2a2a;
-    border-radius: 14px;
-    padding: 2rem;
+  width: 100%;
+  max-width: 420px;
+  background-color: var(--surface);
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+  padding: 2rem;
 }
 
 .auth-card.registro-card {
-    max-width: 640px;
+  max-width: 640px;
 }
 
 .auth-card h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    margin-bottom: 1.5rem;
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.1rem;
 }
 
 .campo {
-    margin-bottom: 1.1rem;
+  margin-bottom: 1.1rem;
 }
 
 .campo label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.35rem;
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
 }
 
 .campo input,
 .campo select {
-    width: 100%;
-    background-color: #141414;
-    color: #fff;
-    border: 1px solid #3a3a3a;
-    border-radius: 8px;
-    padding: 0.65rem 0.8rem;
-    font-size: 1rem;
+  width: 100%;
+  background-color: var(--bg);
+  color: #fff;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+  font-size: 1rem;
 }
 
 .campo input:focus,
 .campo select:focus {
-    outline: none;
-    border-color: #1009e5;
+  outline: none;
+  border-color: var(--azul-texto);
 }
 
 .campo input.invalido,
 .campo select.invalido {
-    border-color: #ff5a5f;
+  border-color: var(--rojo);
 }
 
 .fila-doble {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1rem;
 }
 
 @media (max-width: 576px) {
-    .fila-doble {
-        grid-template-columns: 1fr;
-    }
+  .fila-doble {
+    grid-template-columns: 1fr;
+  }
 }
 
 .input-con-boton {
-    position: relative;
+  position: relative;
 }
 
 .input-con-boton input {
-    padding-right: 2.75rem;
+  padding-right: 2.75rem;
 }
 
 .ver {
-    position: absolute;
-    top: 50%;
-    right: 0.5rem;
-    transform: translateY(-50%);
-    background: none;
-    border: 0;
-    color: #aaa;
-    cursor: pointer;
-    padding: 0.25rem 0.4rem;
-}
-
-.error {
-    display: block;
-    color: #ff5a5f;
-    margin-top: 0.3rem;
-}
-
-.alerta-error {
-    background-color: rgba(255, 90, 95, 0.12);
-    border: 1px solid #ff5a5f;
-    color: #ff8a8e;
-    border-radius: 8px;
-    padding: 0.65rem 0.8rem;
-    margin-bottom: 1rem;
-}
-
-.alerta-exito {
-    background-color: rgba(46, 160, 67, 0.12);
-    border: 1px solid #2ea043;
-    color: #6fdd8b;
-    border-radius: 8px;
-    padding: 0.65rem 0.8rem;
-    margin-bottom: 1rem;
-}
-
-.btn-principal {
-    width: 100%;
-    background-color: #1009e5;
-    color: #fff;
-    border: 0;
-    border-radius: 8px;
-    padding: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    cursor: pointer;
-}
-
-.btn-principal:hover:not(:disabled) {
-    filter: brightness(1.15);
-}
-
-.btn-principal:disabled {
-    opacity: 0.6;
-    cursor: wait;
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  background: none;
+  border: 0;
+  color: var(--texto-suave);
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
 }
 
 .pie {
-    text-align: center;
-    margin: 1.25rem 0 0;
-    color: #aaa;
+  text-align: center;
+  margin: 1.1rem 0 0;
+  color: var(--texto-suave);
 }
 
 .pie a {
-    color: #fff;
-    font-weight: 600;
+  color: var(--azul-texto);
+  font-weight: 600;
 }
