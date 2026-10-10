@@ -1,0 +1,146 @@
+<div class="container py-4">
+  @if (cargando()) {
+    <p>Cargando...</p>
+  } @else if (error()) {
+    <p>No se pudo cargar la función: {{ error() }}</p>
+  } @else if (funcion(); as f) {
+    <a [routerLink]="['/peliculas', f.pelicula.id]" class="volver">← Volver a la película</a>
+
+    <header class="encabezado">
+      <h1>{{ f.pelicula.nombre }}</h1>
+      <p class="cuando">{{ cuando() }} · {{ f.formato }} · {{ f.idioma }} · {{ f.sala }}</p>
+    </header>
+
+    <div class="row g-4">
+      <div class="col-12 col-lg-9">
+        <div class="pantalla">PANTALLA</div>
+
+        <div class="mapa-scroll">
+          <div class="mapa" role="group" aria-label="Mapa de butacas">
+            @for (fila of filas(); track fila.fila) {
+              <div class="fila">
+                <span class="letra">{{ fila.fila }}</span>
+
+                @for (sector of fila.sectores; track $index; let i = $index) {
+                  <div [class]="'sector sector-' + (i + 1)">
+                    @for (b of sector; track b.id) {
+                      <button
+                        type="button"
+                        class="butaca"
+                        [appHighlightButaca]="b.tipo"
+                        [butacaEstado]="estado(b)"
+                        [disabled]="estado(b) === 'ocupada'"
+                        [attr.aria-pressed]="estado(b) === 'seleccionada'"
+                        [attr.aria-label]="
+                          'Butaca ' +
+                          b.fila +
+                          b.numero +
+                          ', ' +
+                          etiquetaTipo(b.tipo) +
+                          ', ' +
+                          estado(b)
+                        "
+                        (click)="alternar(b)"
+                      >
+                        {{ b.numero }}
+                      </button>
+                    }
+                  </div>
+                }
+
+                <span class="letra">{{ fila.fila }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <ul class="leyenda">
+          <li>
+            <span
+              class="butaca mini"
+              [appHighlightButaca]="'estandar'"
+              [butacaEstado]="'libre'"
+            ></span>
+            Disponible
+          </li>
+          <li>
+            <span
+              class="butaca mini"
+              [appHighlightButaca]="'accesible'"
+              [butacaEstado]="'libre'"
+            ></span>
+            Accesible
+          </li>
+          <li>
+            <span class="butaca mini" [appHighlightButaca]="'vip'" [butacaEstado]="'libre'"></span>
+            VIP (+{{ recargoVip() | precio }})
+          </li>
+          <li>
+            <span
+              class="butaca mini"
+              [appHighlightButaca]="'estandar'"
+              [butacaEstado]="'seleccionada'"
+            ></span>
+            Seleccionada
+          </li>
+          <li>
+            <span
+              class="butaca mini"
+              [appHighlightButaca]="'estandar'"
+              [butacaEstado]="'ocupada'"
+            ></span>
+            Ocupada
+          </li>
+        </ul>
+      </div>
+
+      <aside class="col-12 col-lg-3">
+        <div class="resumen">
+          <h2>TU SELECCIÓN</h2>
+
+          @if (seleccion().length === 0) {
+            <p class="vacio">Elegí tus butacas en el mapa.</p>
+          } @else {
+            <ul>
+              @for (b of seleccion(); track b.id) {
+                <li>
+                  <span
+                    >{{ b.fila }}{{ b.numero }} <small>{{ etiquetaTipo(b.tipo) }}</small></span
+                  >
+                  <span>{{ precioButaca(b) | precio }}</span>
+                </li>
+              }
+            </ul>
+            <div class="total">
+              <span>Total</span>
+              <strong>{{ total() | precio }}</strong>
+            </div>
+          }
+
+          @if (noContiguas()) {
+            <div class="alerta-error" role="alert">
+              Las butacas deben ser contiguas: en la misma fila, una al lado de la otra y sin
+              pasillo en el medio.
+            </div>
+          }
+
+          @if (aviso()) {
+            <div class="alerta-aviso" role="status">{{ aviso() }}</div>
+          }
+
+          <button
+            type="button"
+            class="btn-principal"
+            [disabled]="!puedeContinuar()"
+            (click)="continuar()"
+          >
+            CONTINUAR
+          </button>
+        </div>
+      </aside>
+    </div>
+  } @else {
+    <p>No encontramos la función que buscás.</p>
+    <a routerLink="/" class="volver">← Volver a la cartelera</a>
+  }
+</div>

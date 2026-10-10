@@ -1,0 +1,188 @@
+.volver {
+  display: inline-block;
+  margin-bottom: 1.3rem;
+  color: #aaa;
+  text-decoration: none;
+}
+
+.volver:hover {
+  color: #fff;
+}
+
+.encabezado h1 {
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.cuando {
+  color: #aaa;
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.cuando::first-letter {
+  text-transform: uppercase;
+}
+
+/* ===== Mapa ===== */
+.pantalla {
+  width: 70%;
+  margin: 0.5rem auto 1.5rem;
+  padding: 0.4rem;
+  text-align: center;
+  letter-spacing: 0.4em;
+  font-size: 0.75rem;
+  color: #aaa;
+  border-top: 3px solid #666;
+  border-radius: 50% 50% 0 0 / 14px 14px 0 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.12), transparent);
+}
+
+/* En pantallas chicas el mapa se desliza horizontalmente */
+.mapa-scroll {
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.mapa {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: max-content;
+  margin: 0 auto;
+}
+
+.fila {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.letra {
+  width: 1.25rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.sector {
+  display: flex;
+  gap: 4px;
+}
+
+/* Anchos fijos para que los pasillos queden alineados en todas las filas,
+   incluso en las accesibles (J y K), que tienen menos butacas */
+.sector-1 {
+  min-width: 116px;
+  justify-content: flex-end;
+}
+.sector-2 {
+  min-width: 596px;
+  justify-content: center;
+}
+.sector-3 {
+  min-width: 116px;
+  justify-content: flex-start;
+}
+
+.butaca {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 6px 6px 3px 3px;
+  font-size: 0.6rem;
+  line-height: 1;
+  transition: transform 0.1s;
+}
+
+.butaca:hover:not(:disabled) {
+  transform: scale(1.15);
+}
+
+.butaca:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ===== Leyenda ===== */
+.leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0 0;
+}
+
+.leyenda li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.butaca.mini {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+}
+
+/* ===== Resumen ===== */
+.resumen {
+  position: sticky;
+  top: 1rem;
+  background-color: #1c1c1c;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.resumen h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.vacio {
+  color: #aaa;
+}
+
+.resumen ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.resumen li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.resumen small {
+  color: #aaa;
+  margin-left: 0.4rem;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.alerta-aviso {
+  background-color: rgba(255, 193, 7, 0.1);
+  border: 1px solid #ffc107;
+  color: #ffd54f;
+  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+  margin-bottom: 1rem;
+}
