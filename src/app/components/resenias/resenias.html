@@ -1,0 +1,79 @@
+<section id="resenas" class="resenas">
+    <h2 class="titulo-seccion">CALIFICACIONES Y RESEÑAS</h2>
+
+    <!-- Resumen: promedio y cantidad -->
+    <div class="resumen">
+        @if (resumen().cantidad > 0) {
+            <span class="promedio">{{ resumen().promedio }}</span>
+            <span class="estrellas-fijas">{{ textoEstrellas(resumen().promedio ?? 0) }}</span>
+            <span class="cantidad">
+                ({{ resumen().cantidad }} {{ resumen().cantidad === 1 ? 'reseña' : 'reseñas' }})
+            </span>
+        } @else {
+            <p class="aviso">Todavía no hay reseñas para esta película.</p>
+        }
+    </div>
+
+    <!-- Formulario: solo para quien ya la vio -->
+    @if (!auth.estaLogueado()) {
+        <p class="aviso">Iniciá sesión para calificar las películas que viste.</p>
+    } @else if (puede()) {
+        <form class="form-resenia" (submit)="guardar($event)">
+            <h3>{{ yaTiene() ? 'Tu reseña' : 'Dejá tu reseña' }}</h3>
+
+            <div class="estrellas" (mouseleave)="hover.set(0)">
+                @for (n of estrellas; track n) {
+                    <button
+                        type="button"
+                        class="estrella"
+                        [class.activa]="n <= (hover() || puntuacion())"
+                        [attr.aria-label]="n + ' estrellas'"
+                        (mouseenter)="hover.set(n)"
+                        (click)="puntuacion.set(n)"
+                    >
+                        ★
+                    </button>
+                }
+            </div>
+
+            <textarea
+                rows="3"
+                maxlength="500"
+                placeholder="Contanos qué te pareció (opcional)"
+                [value]="comentario()"
+                (input)="comentario.set($any($event.target).value)"
+            ></textarea>
+            <small class="contador">{{ comentario().length }}/500</small>
+
+            @if (mensaje()) { <div class="alerta-exito">{{ mensaje() }}</div> }
+            @if (error())   { <div class="alerta-error">{{ error() }}</div> }
+
+            <div class="acciones">
+                <button class="btn-principal" type="submit" [disabled]="guardando() || puntuacion() === 0">
+                    {{ guardando() ? 'Guardando...' : 'Guardar reseña' }}
+                </button>
+                @if (yaTiene()) {
+                    <button class="btn-secundario" type="button" (click)="eliminar()">Eliminar</button>
+                }
+            </div>
+        </form>
+    } @else {
+        <p class="aviso">Vas a poder calificar esta película después de verla (cuando se valide tu entrada).</p>
+    } 
+
+    <!-- Lista de reseñas -->
+    <div class="lista">
+        @for (r of lista(); track r.id) {
+            <article class="resenia">
+                <div class="cabecera">
+                    <strong>{{ r.autor }}</strong>
+                    <span class="estrellas-fijas">{{ textoEstrellas(r.puntuacion) }}</span>
+                    <small>{{ r.created_at | date: 'dd/MM/yyyy' }}</small>
+                </div>
+                @if (r.comentario) {
+                    <p>{{ r.comentario }}</p>
+                }
+            </article>
+        }
+    </div>
+</section>

@@ -1,0 +1,107 @@
+.resenas { margin-top: 3rem; }
+
+.resumen {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+}
+
+.promedio { 
+    font-size: 2rem; 
+    font-weight: 700; 
+}
+
+.estrellas-fijas { 
+    color: var(--ambar); 
+    letter-spacing: 0.1em; 
+}
+
+.cantidad, .aviso, .contador { 
+    color: var(--texto-suave); 
+}
+
+.form-resenia {
+    background: var(--surface-2);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-resenia h3 { 
+    font-size: 1.1rem; 
+    margin-bottom: 0.5rem; 
+}
+
+.estrellas { 
+    display: flex; 
+    gap: 0.15rem; 
+    margin-bottom: 0.75rem; 
+}
+
+.estrella {
+    background: none;
+    border: 0;
+    padding: 0;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--surface-3);
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.estrella.activa { 
+    color: var(--ambar); 
+}
+
+.estrella:hover { 
+    transform: scale(1.15); 
+}
+
+textarea {
+    width: 100%;
+    background: var(--surface);
+    color: var(--texto);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    resize: vertical;
+}
+
+textarea:focus { 
+    outline: none; 
+    border-color: var(--azul-texto); 
+}
+
+.acciones { 
+    display: flex; 
+    gap: 0.5rem; 
+    margin-top: 0.75rem; 
+}
+
+.resenia {
+    background: var(--surface-2);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.6rem;
+}
+
+.cabecera { 
+    display: flex; 
+    flex-wrap: wrap; 
+    align-items: center; 
+    gap: 0.6rem; 
+}
+
+.cabecera small { 
+    color: var(--texto-suave); 
+    margin-left: auto; 
+}
+
+.resenia p { 
+    margin: 0.4rem 0 0; 
+    color: var(--texto); 
+}

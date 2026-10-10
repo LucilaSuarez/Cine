@@ -1,0 +1,49 @@
+<div class="container py-4">
+  <h2 class="titulo-seccion">BUSCAR PELÍCULAS</h2>
+
+  <div class="buscador">
+    <i class="bi bi-search"></i>
+    <input
+      type="search"
+      placeholder="Escribí el nombre de una película..."
+      [value]="texto()"
+      (input)="alEscribir($any($event.target).value)"
+      autofocus
+    />
+  </div>
+
+  @if (error()) {
+    <p class="aviso">No se pudo buscar: {{ error() }}</p>
+  } @else if (buscando()) {
+    <p class="aviso">Buscando...</p>
+  } @else if (buscado() && resultados().length === 0) {
+    <p class="aviso">No encontramos películas con "{{ texto() }}".</p>
+  } @else if (!buscado()) {
+    <p class="aviso">Escribí al menos 2 letras para buscar.</p>
+  }
+
+  <div class="resultados">
+    @for (peli of resultados(); track peli.id) {
+      <a class="resultado" [routerLink]="['/peliculas', peli.id]">
+        @if (peli.poster_url) {
+          <img [src]="peli.poster_url" [alt]="peli.nombre" loading="lazy" />
+        } @else {
+          <div class="sin-poster">Sin póster</div>
+        }
+        <div class="datos">
+          <h3>{{ peli.nombre }}</h3>
+          <p class="meta">
+            {{ peli.duracion_min }} min
+            @if (peli.edad_minima > 0) { · +{{ peli.edad_minima }} }
+            @if (peli.fecha_estreno) { · Estreno: {{ peli.fecha_estreno | date: 'dd/MM/yyyy' }} }
+          </p>
+          <div class="generos">
+            @for (g of peli.generos; track g) {
+              <span class="chip">{{ g }}</span>
+            }
+          </div>
+        </div>
+      </a>
+    }
+  </div>
+</div>
