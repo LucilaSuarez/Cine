@@ -9,7 +9,6 @@ import { AuthService } from '../../services/auth';
   styleUrl: './login.css',
   templateUrl: './login.html',
 })
-
 export class Login {
   private fb = inject(NonNullableFormBuilder);
   private auth = inject(AuthService);
@@ -22,15 +21,19 @@ export class Login {
 
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
-  get email() { return this.form.controls.email; }
-  get password() { return this.form.controls.password; }
+  get email() {
+    return this.form.controls.email;
+  }
+  get password() {
+    return this.form.controls.password;
+  }
 
   async enviar() {
     if (this.form.invalid) {
-      this.form.markAllAsTouched();   // muestra los errores de todos los campos
+      this.form.markAllAsTouched(); // muestra los errores de todos los campos
       return;
     }
 
@@ -40,11 +43,21 @@ export class Login {
     try {
       const { email, password } = this.form.getRawValue();
       await this.auth.login(email.trim(), password);
+      const rol = this.auth.rol();
 
-      // Si un guard nos mandó acá, volvemos a donde quería ir (solo rutas internas)
+      if (rol === 'administrador') {
+        await this.router.navigateByUrl('/admin');
+        return;
+      }
+
+      if (rol === 'empleado') {
+        await this.router.navigateByUrl('/empleado');
+        return;
+      }
+
       const destino = this.route.snapshot.queryParamMap.get('returnUrl');
       const seguro = destino && destino.startsWith('/') && !destino.startsWith('//');
-      this.router.navigateByUrl(seguro ? destino : '/');
+      await this.router.navigateByUrl(seguro ? destino : '/');
     } catch (e: any) {
       this.errorServidor.set(e.message);
     } finally {

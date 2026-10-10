@@ -2,13 +2,13 @@ import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth';
-import { fechaNacimientoValida, passwordsIguales } from '../../validators/registro.validators';
+import { fechaNacimientoValida, passwordsIguales } from '../../validators/registro-validators';
 
 @Component({
   selector: 'app-registro',
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './registro.html',
-  styleUrl: './registro.css'
+  styleUrl: './registro.css',
 })
 export class Registro {
   private fb = inject(NonNullableFormBuilder);
@@ -22,22 +22,25 @@ export class Registro {
 
   readonly tiposSangre = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
   readonly coloresOjos = ['Marrón', 'Negro', 'Azul', 'Verde', 'Gris', 'Avellana'];
-  readonly hoy = new Date().toISOString().slice(0, 10);   // tope del selector de fecha
+  readonly hoy = new Date().toISOString().slice(0, 10); // tope del selector de fecha
 
-  form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    confirmar: ['', Validators.required],
-    nombre: ['', Validators.required],
-    apellido: ['', Validators.required],
-    fecha_nacimiento: ['', [Validators.required, fechaNacimientoValida]],
-    tipo_sangre: ['', Validators.required],
-    color_ojos: ['', Validators.required],
-    dias_vacaciones: [
-      null as number | null,
-      [Validators.required, Validators.min(0), Validators.max(365), Validators.pattern(/^\d+$/)]
-    ]
-  }, { validators: passwordsIguales });
+  form = this.fb.group(
+    {
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmar: ['', Validators.required],
+      nombre: ['', Validators.required],
+      apellido: ['', Validators.required],
+      fecha_nacimiento: ['', [Validators.required, fechaNacimientoValida]],
+      tipo_sangre: ['', Validators.required],
+      color_ojos: ['', Validators.required],
+      dias_vacaciones: [
+        null as number | null,
+        [Validators.required, Validators.min(0), Validators.max(365), Validators.pattern(/^\d+$/)],
+      ],
+    },
+    { validators: passwordsIguales },
+  );
 
   invalido(campo: string): boolean {
     const c = this.form.get(campo);
@@ -78,13 +81,13 @@ export class Registro {
         fecha_nacimiento: v.fecha_nacimiento,
         tipo_sangre: v.tipo_sangre,
         color_ojos: v.color_ojos,
-        dias_vacaciones: v.dias_vacaciones!
+        dias_vacaciones: v.dias_vacaciones!,
       });
 
       if (conSesion) {
         this.router.navigateByUrl('/');
       } else {
-        this.confirmarEmail.set(true);   // hay que confirmar el email antes de entrar
+        this.confirmarEmail.set(true); // hay que confirmar el email antes de entrar
         this.form.reset();
       }
     } catch (e: any) {
