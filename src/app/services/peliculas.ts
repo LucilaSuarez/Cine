@@ -46,6 +46,49 @@ export class PeliculasService {
     return this.mapear(data);
   }
 
+    // Las más vendidas, en orden de ranking (usa el RPC peliculas_mas_vendidas)
+  async obtenerMasVendidas(limite = 3): Promise<Pelicula[]> {
+    const { data: ranking, error: errRanking } = await this.supabase.client.rpc(
+      'peliculas_mas_vendidas',
+      { p_limite: limite },
+    );
+    if (errRanking) throw errRanking;
+
+    const ids: string[] = (ranking ?? []).map((r: any) => r.pelicula_id);
+    if (ids.length === 0) return [];
+
+    const { data, error } = await this.supabase.client
+      .from('peliculas')
+      .select(this.columnas)
+      .in('id', ids)
+      .eq('activa', true)
+      .lte('fecha_estreno', this.hoy()); // solo las que están en cartelera
+
+    if (error) throw error;
+
+    // Respetamos el orden del ranking
+    const mapeadas = this.mapear(data);
+    return ids
+      .map((id) => mapeadas.find((p) => p.id === id))
+      .filter((p): p is Pelicula => !!p);
+  }
+
+  // Búsqueda por nombre (RF-02.3)
+  async buscar(texto: string): Promise<Pelicula[]> {
+    const limpio = texto.trim().replace(/[%_,]/g, ' '); // evita comodines del ilike
+    if (!limpio) return [];
+
+    const { data, error } = await this.supabase.client
+      .from('peliculas')
+      .select(this.columnas)
+      .eq('activa', true)
+      .ilike('nombre', `%${limpio}%`)
+      .order('nombre');
+
+    if (error) throw error;
+    return this.mapear(data);
+  }
+
   async obtenerPelicula(id: string): Promise<PeliculaConFunciones | null> {
     const { data, error } = await this.supabase.client
       .from('peliculas')

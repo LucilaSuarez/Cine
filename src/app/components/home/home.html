@@ -30,8 +30,43 @@
 
 <div class="container py-4">
   <!-- LOS FAVORITOS -->
-  <section class="seccion carrusel row g-4">
+  <section class="seccion row g-4">
     <h2 class="titulo-seccion">LOS FAVORITOS</h2>
+
+    @if (!cargando() && !error()) {
+      @for (peli of favoritos(); track peli.id; let i = $index) {
+        <div class="col-6 col-md-4 col-lg-3 favorito">
+          <span class="rank">{{ i + 1 }}</span>
+
+          <div class="peli-card" [routerLink]="['/peliculas', peli.id]">
+            @if (peli.poster_url) {
+              <img [src]="peli.poster_url" [alt]="peli.nombre" loading="lazy" />
+            } @else {
+              <div class="sin-poster">Sin póster</div>
+            }
+
+            <div class="info">
+              <h3>{{ peli.nombre }}</h3>
+
+              <div class="meta">
+                <span>{{ peli.duracion_min }} min</span>
+                @if (peli.edad_minima > 0) {
+                  <span class="edad">+{{ peli.edad_minima }}</span>
+                }
+              </div>
+
+              <p>{{ peli.sinopsis }}</p>
+
+              <div class="generos">
+                @for (g of peli.generos; track g) {
+                  <span class="chip">{{ g }}</span>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    }
   </section>
 
   <!-- PELÍCULAS EN CARTELERA -->

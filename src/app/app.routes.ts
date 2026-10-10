@@ -57,5 +57,9 @@ export const routes: Routes = [
     canMatch: [rolGuard('administrador')],
     loadComponent: () => import('./components/admin/admin').then((m) => m.Admin),
   },
+  {
+    path: 'buscar',
+    loadComponent: () => import('./components/buscar/buscar').then((m) => m.Buscar),
+  }, 
   { path: '**', redirectTo: '' },
 ];

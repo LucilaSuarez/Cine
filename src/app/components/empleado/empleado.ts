@@ -4,7 +4,6 @@ import { SupabaseService } from '../../services/supabase';
 
 @Component({
   selector: 'app-empleado',
-  standalone: true,
   imports: [FormsModule],
   templateUrl: './empleado.html',
   styleUrl: './empleado.css',

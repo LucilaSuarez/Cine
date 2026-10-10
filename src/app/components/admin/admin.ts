@@ -5,7 +5,6 @@ import { SupabaseService } from '../../services/supabase';
 
 @Component({
   selector: 'app-admin',
-  standalone: true,
   imports: [FormsModule, DatePipe, CurrencyPipe],
   templateUrl: './admin.html',
   styleUrl: './admin.css',

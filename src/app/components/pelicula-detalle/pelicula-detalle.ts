@@ -6,12 +6,13 @@ import { DuracionPipe } from '../../pipes/duracion-pipe';
 import { EdadPipe } from '../../pipes/edad-pipe';
 import { PrecioPipe } from '../../pipes/precio-pipe';
 import { RestrictEdadDirective } from '../../directives/restrict-edad.directive';
+import { Resenias } from '../resenias/resenias';
 
 const ZONA = 'America/Argentina/Buenos_Aires';
 
 @Component({
   selector: 'app-pelicula-detalle',
-  imports: [RouterLink, DuracionPipe, EdadPipe, PrecioPipe, RestrictEdadDirective],
+  imports: [RouterLink, DuracionPipe, EdadPipe, PrecioPipe, RestrictEdadDirective, Resenias],
   templateUrl: './pelicula-detalle.html',
   styleUrl: './pelicula-detalle.css',
 })

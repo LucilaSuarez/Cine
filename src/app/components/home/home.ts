@@ -22,6 +22,8 @@ export class Home implements OnInit {
   generoSeleccionado = signal<string | null>(null);
   menuAbierto = signal(false);
 
+  favoritos = signal<Pelicula[]>([]);
+
   generos = computed(() =>
     [...new Set(this.peliculas().flatMap((p) => p.generos))].sort((a, b) => a.localeCompare(b)),
   );
@@ -39,6 +41,17 @@ export class Home implements OnInit {
       ]);
       this.peliculas.set(cartelera);
       this.proximos.set(proximos);
+      let top: Pelicula[] = [];
+      try {
+        top = await this.peliculasService.obtenerMasVendidas(3);
+      } catch {
+        top = [];
+      }
+      if (top.length < 3) {
+        const faltan = cartelera.filter((p) => !top.some((t) => t.id === p.id));
+        top = [...top, ...faltan].slice(0, 3);
+      }
+      this.favoritos.set(top);
     } catch (e: any) {
       this.error.set(e.message);
     } finally {

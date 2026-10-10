@@ -114,3 +114,17 @@ export interface Comprobante {
   items: { nombre: string; cantidad: number }[];
   leyenda: string | null;
 }
+
+export interface Resenia {
+  id: string;
+  usuario_id: string;
+  autor: string;
+  puntuacion: number;
+  comentario: string | null;
+  created_at: string;
+}
+
+export interface ResumenPuntuacion {
+  promedio: number | null;
+  cantidad: number;
+}
