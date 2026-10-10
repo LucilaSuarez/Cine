@@ -277,3 +277,52 @@ main {
   color: var(--azul-texto);
   font-weight: 600;
 }
+
+/* ===== Acceso con Google y GitHub ===== */
+.separador {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+}
+
+.separador::before,
+.separador::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: var(--borde);
+}
+
+.btn-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  width: 100%;
+  margin-bottom: 0.7rem;
+  padding: 0.75rem;
+  background-color: var(--surface-2);
+  color: var(--texto);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn-social:hover:not(:disabled) {
+  background-color: var(--surface-3);
+  border-color: var(--azul-texto);
+}
+
+.btn-social:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-social i {
+  font-size: 1.1rem;
+}
