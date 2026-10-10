@@ -4,9 +4,8 @@ Aplicación web para consultar la cartelera de un cine, elegir butacas en tiempo
 
 Trabajo realizado con fines educativos para **Programación IV — UTN**.
 
-- **Aplicación desplegada:** [COMPLETAR: URL de Vercel]
-- **Repositorio:** [COMPLETAR: URL de GitHub]
-- **Documento de requerimientos (SRS):** ver `docs/` o el archivo entregado junto con el proyecto.
+- **Aplicación desplegada:** https://cine-one-wine.vercel.app/
+- **Repositorio:** https://github.com/LucilaSuarez/Cine
 
 ---
 
@@ -37,47 +36,6 @@ cd Cine
 npm install
 ```
 
-### Variables de entorno
-
-Los datos de conexión a Supabase no están escritos en el código: se generan con el script `scripts/create-environment.js` a partir de variables de entorno.
-
-| Variable | Descripción |
-|---|---|
-| `SUPABASE_URL` | URL del proyecto, por ejemplo `https://xxxx.supabase.co` |
-| `SUPABASE_ANON_KEY` | Clave pública `anon` (Project Settings → API Keys) |
-
-```bash
-# Linux / macOS
-export SUPABASE_URL="https://xxxx.supabase.co"
-export SUPABASE_ANON_KEY="tu-clave-anon"
-
-# Windows (PowerShell)
-$env:SUPABASE_URL="https://xxxx.supabase.co"
-$env:SUPABASE_ANON_KEY="tu-clave-anon"
-
-node scripts/create-environment.js
-```
-
-Después:
-
-```bash
-ng serve          # desarrollo en http://localhost:4200
-ng build          # build de producción en dist/
-```
-
-> **Seguridad:** la clave `anon` es pública por diseño (viaja al navegador). La protección real de los datos la dan las políticas **RLS** de cada tabla. Nunca se usa ni se sube la clave `service_role`.
-
-### Despliegue en Vercel
-
-1. Importar el repositorio en Vercel (preset **Angular**).
-2. En *Settings → Environment Variables*, cargar `SUPABASE_URL` y `SUPABASE_ANON_KEY`.
-3. En *Settings → Build & Development → Build Command*, activar *Override* y usar:
-   ```
-   node scripts/create-environment.js && npm run build
-   ```
-4. Cada `git push` a `main` redespliega automáticamente.
-
----
 
 ## Arquitectura
 
